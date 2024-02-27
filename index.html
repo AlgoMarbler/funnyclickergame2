@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funny Clicker Game</title>
+    <style>
+        html{
+            width: 100%;
+            height: 100%;
+        }
+        body{
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            overflow: hidden;
+        }
+        /* Typical Styling */
+        #topBar{
+            width: 100vw;
+            height: 2vh;
+            padding-top: 1vh;
+            padding-bottom: 1vh;
+            text-align: center;
+            background-color: #FDFDFD;
+            float: left;
+        }
+
+        #leftPanelOne{
+            width: 30vw;
+            height: 96vh;
+            background-color: #EEEEEE;
+            float: left;
+        }
+
+        #content{
+            width: 40vw;
+            height: 96vh;
+            float: left;
+            background-color: #999999;
+        }
+
+        #rightPanelOne{
+            width: 30vw;
+            height: 96vh;
+            background-color: #E0E0E0;
+            float: left;
+        }
+
+        /* Mana bar styling */
+        #manaBar {
+            width: 100%;
+            height: 2vh;
+            margin-bottom: 2vh;
+            background-color: #D0D0D0;
+            overflow: hidden;
+        }
+
+        #currentMana {
+            height: 2vh;
+            width: 0;
+            background-color: #4CAF50;
+            transition: width 0.2s ease;
+        }
+
+        .flash {
+            animation: flash 0.5s;
+        }
+
+        .notEnoughCoins {
+            animation: notEnoughCoins 0.5s;
+        }
+
+        @keyframes notEnoughCoins{
+            100% {
+                color: #000000;
+            }
+            0%, 25% {
+                color: #FF0000;
+            }
+        }
+
+        @keyframes flash {
+            100% {
+                background-color: #4CAF50;
+            }
+            0%, 25% {
+                background-color: #FF0000;
+            }
+        }
+        /* Mana bar styling end */
+
+        button {
+            position: relative;
+        }
+
+        .hiddenDiv {
+            display: none;
+            position: absolute;
+            left: 0;
+            background-color: #fff;
+            padding: 1vh;
+            border: 1px solid #aaa;
+            z-index: 999;
+        }
+
+
+        /* Style the scrollbar */
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 10px; /* Set the width of the scrollbar */
+          }
+
+          /* Style the scrollbar track */
+          .custom-scrollbar::-webkit-scrollbar-track {
+            background-color: #F0F0F0; /* Set the color of the track */
+            border-radius: 5px; /* Set the border radius of the track */
+          }
+
+          /* Style the scrollbar handle */
+          .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #888; /* Set the color of the handle */
+            border-radius: 5px; /* Set the border radius of the handle */
+          }
+
+        button:hover .hiddenDiv {
+            display: block;
+        }
+
+    </style>
+    <script>
+        // Initialize mana variable
+        var mana = 0;
+        var maxMana = 100;
+        var manaSpeed = 0.25; // Adjust the speed as needed
+        var coins = 0;
+        var increment = 1;
+        var randomNumber = 0;
+        var multiplier = 1;
+        var clickyBoostyCost = 1e+6;
+        var upgradeMultiCost = 100;
+        var totalBuildings = 0;
+
+
+        var building1quantity = 0;
+        var defaultBuilding1increment = 1;
+        var building1increment = 1;
+        var building1cost = 15;
+
+        var building2quantity = 0;
+        var defaultBuilding2increment = 5;
+        var building2increment = 5;
+        var building2cost = 100;
+
+        var building3quantity = 0;
+        var defaultBuilding3increment = 14;
+        var building3increment = 14;
+        var building3cost = 1100;
+
+        var building4quantity = 0;
+        var defaultBuilding4increment = 75;
+        var building4increment = 75;
+        var building4cost = 12000;
+
+        var building5quantity = 0;
+        var defaultBuilding5increment = 660;
+        var building5increment = 660;
+        var building5cost = 130000;
+
+        var building6quantity = 0;
+        var defaultBuilding6increment = 4750;
+        var building6increment = 4750;
+        var building6cost = 1400000;
+
+        var building7quantity = 0;
+        var defaultBuilding7increment = 21000;
+        var building7increment = 21000;
+        var building7cost = 2e+7;
+
+        var building8quantity = 0;
+        var defaultBuilding8increment = 96000;
+        var building8increment = 96000;
+        var building8cost = 3.3e+8;
+
+        var building9quantity = 0;
+        var defaultBuilding9increment = 350000;
+        var building9increment = 350000;
+        var building9cost = 5.1e+9;
+
+        var building10quantity = 0;
+        var defaultBuilding10increment = 2500000;
+        var building10increment = 2500000;
+        var building10cost = 7.5e+10;
+
+        var building11quantity = 0;
+        var defaultBuilding11increment = 5e+7;
+        var building11increment = 5e+7;
+        var building11cost = 1e+12;
+
+        var building12quantity = 0;
+        var defaultBuilding12increment = 6e+8;
+        var building12increment = 6e+8;
+        var building12cost = 1.4e+13;
+
+        var building13quantity = 0;
+        var defaultBuilding13increment = 9e+9;
+        var building13increment = 9e+9;
+        var building13cost = 1.7e+14;
+
+        var building14quantity = 0;
+        var defaultBuilding14increment = 8e+11;
+        var building14increment = 8e+11;
+        var building14cost = 2.1e+15;
+
+        var building15quantity = 0;
+        var defaultBuilding15increment = 7e+12;
+        var building15increment = 7e+12;
+        var building15cost = 2.6e+16;
+
+        var building16quantity = 0;
+        var defaultBuilding16increment = 6e+13;
+        var building16increment = 6e+13;
+        var building16cost = 3.1e+17;
+
+        var building17quantity = 0;
+        var defaultBuilding17increment = 2e+15;
+        var building17increment = 2e+15;
+        var building17cost = 7.1e+19;
+
+        var building18quantity = 0;
+        var defaultBuilding18increment = 4e+17;
+        var building18increment = 4e+17;
+        var building18cost = 1.2e+22;
+
+        var building19quantity = 0;
+        var defaultBuilding19increment = 9.5e+19;
+        var building19increment = 9.5e+19;
+        var building19cost = 1.9e+24;
+
+        var building20quantity = 0;
+        var defaultBuilding20increment = 3e+22;
+        var building20increment = 3e+22;
+        var building20cost = 5.4e+26;
+
+        var building21quantity = 0;
+        var defaultBuilding21increment = 8e+24;
+        var building21increment = 8e+24;
+        var building21cost = 1.6e+29;
+
+        var building22quantity = 0;
+        var defaultBuilding22increment = 4.5e+27;
+        var building22increment = 4.5e+27;
+        var building22cost = 6.6e+31;
+
+        var building23quantity = 0;
+        var defaultBuilding23increment = 9e+29;
+        var building23increment = 9e+29;
+        var building23cost = 5e+34;
+
+        var building24quantity = 0;
+        var defaultBuilding24increment = 2.5e+32;
+        var building24increment = 2.5e+32;
+        var building24cost = 6.2e+37;
+
+        var building25quantity = 0;
+        var defaultBuilding25increment = 9e+35;
+        var building25increment = 9e+35;
+        var building25cost = 1.1e+41;
+
+        var building26quantity = 0;
+        var defaultBuilding26increment = 4.2e+38;
+        var building26increment = 4.2e+38;
+        var building26cost = 9.2e+45;
+
+        var priorTime = 0;
+        var elapsedTime = 0;
+        var startTime; // Declare startTime as a global variable
+        var timerInterval; // Variable to store the interval ID
+
+
+        function styleNumber(number) {
+            if (number >= 1e63) {
+                return number.toExponential(3);
+            } else if (number >= 1e60) {
+                return (number / 1e60).toFixed(3) + ' novemdecillion';
+            } else if (number >= 1e57) {
+                return (number / 1e57).toFixed(3) + ' octodecillion';
+            } else if (number >= 1e54) {
+                return (number / 1e54).toFixed(3) + ' septendecillion';
+            } else if (number >= 1e51) {
+                return (number / 1e51).toFixed(3) + ' sexdecillion';
+            } else if (number >= 1e48) {
+                return (number / 1e48).toFixed(3) + ' quindecillion';
+            } else if (number >= 1e45) {
+                return (number / 1e45).toFixed(3) + ' quattuordecillion';
+            } else if (number >= 1e42) {
+                return (number / 1e42).toFixed(3) + ' tredecillion';
+            } else if (number >= 1e39) {
+                return (number / 1e39).toFixed(3) + ' duodecillion';
+            } else if (number >= 1e36) {
+                return (number / 1e36).toFixed(3) + ' undecillion';
+            } else if (number >= 1e33) {
+                return (number / 1e33).toFixed(3) + ' decillion';
+            } else if (number >= 1e30) {
+                return (number / 1e30).toFixed(3) + ' nonillion';
+            } else if (number >= 1e27) {
+                return (number / 1e27).toFixed(3) + ' octillion';
+            } else if (number >= 1e24) {
+                return (number / 1e24).toFixed(3) + ' septillion';
+            } else if (number >= 1e21) {
+                return (number / 1e21).toFixed(3) + ' sextillion';
+            } else if (number >= 1e18) {
+                return (number / 1e18).toFixed(3) + ' quintillion';
+            } else if (number >= 1e15) {
+                return (number / 1e15).toFixed(3) + ' quadrillion';
+            } else if (number >= 1e12) {
+                return (number / 1e12).toFixed(3) + ' trillion';
+            } else if (number >= 1e9) {
+                return (number / 1e9).toFixed(3) + ' billion';
+            } else if (number >= 1e6) {
+                return (number / 1e6).toFixed(3) + ' million';
+            } else {
+                return Math.round(number);
+            }
+        }
+
+
+            // Function to save variables to localStorage
+        function saveGame() {
+
+            priorTime = priorTime + elapsedTime;
+            var saveData = {
+                mana,
+                maxMana,
+                manaSpeed,
+                coins,
+                increment,
+                randomNumber,
+                multiplier,
+                clickyBoostyCost,
+                building1quantity,
+                defaultBuilding1increment,
+                building1increment,
+                building1cost,
+                building2quantity,
+                defaultBuilding2increment,
+                building2increment,
+                building2cost,
+                building3quantity,
+                defaultBuilding3increment,
+                building3increment,
+                building3cost,
+                building4quantity,
+                defaultBuilding4increment,
+                building4increment,
+                building4cost,
+                building5quantity,
+                defaultBuilding5increment,
+                building5increment,
+                building5cost,
+                building6quantity,
+                defaultBuilding6increment,
+                building6increment,
+                building6cost,
+                building7quantity,
+                defaultBuilding7increment,
+                building7increment,
+                building7cost,
+                building8quantity,
+                defaultBuilding8increment,
+                building8increment,
+                building8cost,
+                building9quantity,
+                defaultBuilding9increment,
+                building9increment,
+                building9cost,
+                building10quantity,
+                defaultBuilding10increment,
+                building10increment,
+                building10cost,
+                building11quantity,
+                defaultBuilding11increment,
+                building11increment,
+                building11cost,
+                building12quantity,
+                defaultBuilding12increment,
+                building12increment,
+                building12cost,
+                building13quantity,
+                defaultBuilding13increment,
+                building13increment,
+                building13cost,
+                building14quantity,
+                defaultBuilding14increment,
+                building14increment,
+                building14cost,
+                building15quantity,
+                defaultBuilding15increment,
+                building15increment,
+                building15cost,
+                building16quantity,
+                defaultBuilding16increment,
+                building16increment,
+                building16cost,
+                building17quantity,
+                defaultBuilding17increment,
+                building17increment,
+                building17cost,
+                building18quantity,
+                defaultBuilding18increment,
+                building18increment,
+                building18cost,
+                building19quantity,
+                defaultBuilding19increment,
+                building19increment,
+                building19cost,
+                building20quantity,
+                defaultBuilding20increment,
+                building20increment,
+                building20cost,
+                building21quantity,
+                defaultBuilding21increment,
+                building21increment,
+                building21cost,
+                building22quantity,
+                defaultBuilding22increment,
+                building22increment,
+                building22cost,
+                building23quantity,
+                defaultBuilding23increment,
+                building23increment,
+                building23cost,
+                building24quantity,
+                defaultBuilding24increment,
+                building24increment,
+                building24cost,
+                building25quantity,
+                defaultBuilding25increment,
+                building25increment,
+                building25cost,
+                building26quantity,
+                defaultBuilding26increment,
+                building26increment,
+                building26cost,
+                upgradeMultiCost,
+                startTime: startTime,
+            };
+
+            localStorage.setItem('gameSave', JSON.stringify(saveData));
+            alert("Game saved!");
+        }
+
+
+            // Function to load variables from localStorage
+        function loadGame() {
+            var saveData = localStorage.getItem('gameSave');
+            if (saveData) {
+                saveData = JSON.parse(saveData);
+                mana = saveData.mana;
+                maxMana = saveData.maxMana;
+                manaSpeed = saveData.manaSpeed;
+                coins = saveData.coins;
+                increment = saveData.increment;
+                randomNumber = saveData.randomNumber;
+                multiplier = saveData.multiplier;
+                clickyBoostyCost = saveData.clickyBoostyCost;
+                building1quantity = saveData.building1quantity;
+                defaultBuilding1increment = saveData.defaultBuilding1increment;
+                building1increment = saveData.building1increment;
+                building1cost = saveData.building1cost;
+                building2quantity = saveData.building2quantity;
+                defaultBuilding2increment = saveData.defaultBuilding2increment;
+                building2increment = saveData.building2increment;
+                building2cost = saveData.building2cost;
+                building3quantity = saveData.building3quantity;
+                defaultBuilding3increment = saveData.defaultBuilding3increment;
+                building3increment = saveData.building3increment;
+                building3cost = saveData.building3cost;
+                building4quantity = saveData.building4quantity;
+                defaultBuilding4increment = saveData.defaultBuilding4increment;
+                building4increment = saveData.building4increment;
+                building4cost = saveData.building4cost;
+                building5quantity = saveData.building5quantity;
+                defaultBuilding5increment = saveData.defaultBuilding5increment;
+                building5increment = saveData.building5increment;
+                building5cost = saveData.building5cost;
+                building6quantity = saveData.building6quantity;
+                defaultBuilding6increment = saveData.defaultBuilding6increment;
+                building6increment = saveData.building6increment;
+                building6cost = saveData.building6cost;
+                building7quantity = saveData.building7quantity;
+                defaultBuilding7increment = saveData.defaultBuilding7increment;
+                building7increment = saveData.building7increment;
+                building7cost = saveData.building7cost;
+                building8quantity = saveData.building8quantity;
+                defaultBuilding8increment = saveData.defaultBuilding8increment;
+                building8increment = saveData.building8increment;
+                building8cost = saveData.building8cost;
+                building9quantity = saveData.building9quantity;
+                defaultBuilding9increment = saveData.defaultBuilding9increment;
+                building9increment = saveData.building9increment;
+                building9cost = saveData.building9cost;
+                building10quantity = saveData.building10quantity;
+                defaultBuilding10increment = saveData.defaultBuilding10increment;
+                building10increment = saveData.building10increment;
+                building10cost = saveData.building10cost;
+                building11quantity = saveData.building11quantity;
+                defaultBuilding11increment = saveData.defaultBuilding11increment;
+                building11increment = saveData.building11increment;
+                building11cost = saveData.building11cost;
+                building12quantity = saveData.building12quantity;
+                defaultBuilding12increment = saveData.defaultBuilding12increment;
+                building12increment = saveData.building12increment;
+                building12cost = saveData.building12cost;
+                building13quantity = saveData.building13quantity;
+                defaultBuilding13increment = saveData.defaultBuilding13increment;
+                building13increment = saveData.building13increment;
+                building13cost = saveData.building13cost;
+                building14quantity = saveData.building14quantity;
+                defaultBuilding14increment = saveData.defaultBuilding14increment;
+                building14increment = saveData.building14increment;
+                building14cost = saveData.building14cost;
+                building15quantity = saveData.building15quantity;
+                defaultBuilding15increment = saveData.defaultBuilding15increment;
+                building15increment = saveData.building15increment;
+                building15cost = saveData.building15cost;
+                building16quantity = saveData.building16quantity;
+                defaultBuilding16increment = saveData.defaultBuilding16increment;
+                building16increment = saveData.building16increment;
+                building16cost = saveData.building16cost;
+                building17quantity = saveData.building17quantity;
+                defaultBuilding17increment = saveData.defaultBuilding17increment;
+                building17increment = saveData.building17increment;
+                building17cost = saveData.building17cost;
+                building18quantity = saveData.building18quantity;
+                defaultBuilding18increment = saveData.defaultBuilding18increment;
+                building18increment = saveData.building18increment;
+                building18cost = saveData.building18cost;
+                building19quantity = saveData.building19quantity;
+                defaultBuilding19increment = saveData.defaultBuilding19increment;
+                building19increment = saveData.building19increment;
+                building19cost = saveData.building19cost;
+                building20quantity = saveData.building20quantity;
+                defaultBuilding20increment = saveData.defaultBuilding20increment;
+                building20increment = saveData.building20increment;
+                building20cost = saveData.building20cost;
+                building21quantity = saveData.building21quantity;
+                defaultBuilding21increment = saveData.defaultBuilding21increment;
+                building21increment = saveData.building21increment;
+                building21cost = saveData.building21cost;
+                building22quantity = saveData.building22quantity;
+                defaultBuilding22increment = saveData.defaultBuilding22increment;
+                building22increment = saveData.building22increment;
+                building22cost = saveData.building22cost;
+                building23quantity = saveData.building23quantity;
+                defaultBuilding23increment = saveData.defaultBuilding23increment;
+                building23increment = saveData.building23increment;
+                building23cost = saveData.building23cost;
+                building24quantity = saveData.building24quantity;
+                defaultBuilding24increment = saveData.defaultBuilding24increment;
+                building24increment = saveData.building24increment;
+                building24cost = saveData.building24cost;
+                building25quantity = saveData.building25quantity;
+                defaultBuilding25increment = saveData.defaultBuilding25increment;
+                building25increment = saveData.building25increment;
+                building25cost = saveData.building25cost;
+                building26quantity = saveData.building26quantity;
+                defaultBuilding26increment = saveData.defaultBuilding26increment;
+                building26increment = saveData.building26increment;
+                building26cost = saveData.building26cost;
+                upgradeMultiCost = saveData.upgradeMultiCost;
+                startTime = saveData.startTime;
+
+                alert("Game loaded!");
+            } else {
+                alert("No saved game found.");
+            }
+            // You may want to update your UI here after loading
+        }
+
+
+
+        document.addEventListener("keydown", function(clickedEarn) {
+        // Check if the pressed key is "Enter"
+            if (event.key === "Enter") {
+                // Prevent the default action (e.g., form submission)
+                event.preventDefault();
+                alert("You are not allowed to cheat by holding down ['Enter'] !")
+                // Optionally, add your logic here based on other conditions before calling f1()
+                // For example, you can check if a specific element has focus, etc.
+                
+                // Call f1 only if the specific conditions are met
+                f1();
+            }
+        });
+
+        function clickyBoosty(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                clickyBoostyCost = Math.ceil(12859000 + clickyBoostyCost * 37.141);
+                multiplier=multiplier*1.35;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+        }
+
+        // Function to toggle the visibility of the hiddenDiv
+        function toggleHiddenDiv() {
+            var hiddenDiv = document.getElementById('hiddenDiv');
+            hiddenDiv.style.display = (hiddenDiv.style.display === 'none') ? 'block' : 'none';
+            if (hiddenDiv.style.display === 'block') {
+                adjustHiddenDivPosition();
+            }
+        }
+
+        function conjureInstantWealth(cost, multi) {
+            if (mana >= cost) {
+                mana -= cost;
+                coins = coins + (increment*multi);
+                updateManaDisplay();
+            } else {
+                // If not enough mana, flash only the green part of the mana bar red
+                document.getElementById("currentMana").classList.add("flash");
+                document.getElementById("manaDisplay").classList.add("notEnoughCoins");
+
+                // Remove the flash class after 500ms
+                setTimeout(function () {
+                    document.getElementById("currentMana").classList.remove("flash");
+                }, 500);
+                setTimeout(function () {
+                    document.getElementById("manaDisplay").classList.remove("notEnoughCoins");
+                }, 500);
+
+            }
+        }
+
+        function flashNotEnoughCoins() {
+            document.getElementById("coinDisplay").classList.add("notEnoughCoins");
+
+            // Remove the flash class after 500ms
+            setTimeout(function () {
+            document.getElementById("coinDisplay").classList.remove("notEnoughCoins");
+            }, 500);
+        }
+
+
+
+        function gamble(cost, successChance) {
+            if (mana >= cost) {
+                mana -= cost;
+                
+                if (Math.random() > (successChance/100)) {
+                    coins = coins * 2;
+                } else {
+                    coins = coins / 2;
+                }
+
+                // Append the result div to the body
+                document.body.appendChild(resultDiv);
+
+                // Remove the result div after 2 seconds
+                setTimeout(function () {
+                    resultDiv.parentNode.removeChild(resultDiv);
+                }, 2000);
+
+                updateManaDisplay();
+            } else {
+                // If not enough mana, flash only the green part of the mana bar red
+                document.getElementById("currentMana").classList.add("flash");
+                document.getElementById("manaDisplay").classList.add("notEnoughCoins");
+
+                // Remove the flash class after 500ms
+                setTimeout(function () {
+                    document.getElementById("currentMana").classList.remove("flash");
+                }, 500);
+                setTimeout(function () {
+                    document.getElementById("manaDisplay").classList.remove("notEnoughCoins");
+                }, 500);
+            }
+        }
+
+        function mega(cost, successChance) {
+            if (mana >= cost) {
+                mana -= cost;
+                if (Math.random() > (successChance/100)) {
+                    multiplier = multiplier * 2;
+                } else {
+                    multiplier = multiplier / 2;
+                }
+                updateManaDisplay();
+            } else {
+                // If not enough mana, flash only the green part of the mana bar red
+                document.getElementById("currentMana").classList.add("flash");
+                document.getElementById("manaDisplay").classList.add("notEnoughCoins");
+
+                // Remove the flash class after 500ms
+                setTimeout(function () {
+                    document.getElementById("currentMana").classList.remove("flash");
+                }, 500);
+                setTimeout(function () {
+                    document.getElementById("manaDisplay").classList.remove("notEnoughCoins");
+                }, 500);
+
+            }
+        }
+
+
+        // Function to increase mana
+        function increaseMana() {
+            if (mana < maxMana) {
+                mana += (manaSpeed*0.1);
+            }
+        }
+
+        // Set interval to call increaseMana regularly
+        setInterval(increaseMana, 100); // Adjust the interval as needed
+
+        // Timer function
+        function updateTimer() {
+            var currentTime = new Date().getTime();
+            var elapsedTime = Math.floor((currentTime - startTime) / 1000);
+            document.getElementById("timer").innerText = elapsedTime + "s";
+        }
+
+        function updateTimer() {
+            if (document.visibilityState === 'visible') {
+                // Only update the timer when the page is visible
+                var currentTime = new Date().getTime();
+                var elapsedTime = Math.floor((currentTime - startTime) / 1000);
+
+                var days = Math.floor(elapsedTime / (24 * 60 * 60));
+                var hours = Math.floor((elapsedTime % (24 * 60 * 60)) / (60 * 60));
+                var minutes = Math.floor((elapsedTime % (60 * 60)) / 60);
+                var seconds = elapsedTime % 60;
+
+                // Display the time in the format: "days:hours:minutes:seconds"
+                var timerDisplay = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+                
+                document.getElementById("timer").innerText = timerDisplay;
+            }
+        }
+
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        function startTimer() {
+            startTime = new Date().getTime();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        // Call startTimer when the page is loaded or reloaded
+        startTimer();
+
+        // Call stopTimer when the page is about to be closed
+        window.addEventListener('beforeunload', function () {
+            saveGame();
+            stopTimer();
+        });
+
+        // Start the timer when the page loads
+        var startTime = new Date().getTime();
+        setInterval(updateTimer, 1000);
+
+        function updateFrame() {
+            updateData();
+            requestAnimationFrame(updateFrame);
+        }
+
+        // Initial call to start the animation loop
+        requestAnimationFrame(updateFrame);
+
+        function updateData() {
+            document.getElementById('clickyBoostyDisplay').innerHTML = "Buy (" + styleNumber(clickyBoostyCost) + " coins)";
+            document.getElementById('coinDisplay').innerHTML = "Coins: <b>" + styleNumber(coins) + "</b>";
+            document.getElementById('incrementDisplay').innerHTML = "Per Click: <b>" + styleNumber(increment) + "</b>" + " (multiplier: <b>x" + multiplier.toFixed(2) + "</b>)";
+            document.getElementById("manaDisplay").innerHTML = Math.round(mana) + "/" + maxMana + " (+" + manaSpeed + "/s)";
+            var manaPercentage = (mana / maxMana) * 100;
+
+            document.getElementById("currentMana").style.width = manaPercentage + "%";
+
+            document.getElementById("displayButton1").innerHTML = "Cost: " + styleNumber(building1cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building1quantity;
+            // Update the content of hiddenDisplay1
+            document.getElementById("hiddenDisplay1").innerHTML = "You own: <b>" + building1quantity + "</b> <br>" +
+                "Each <b>Tier I Cursor</b> produces an additional <b>" + styleNumber(building1increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building1quantity + "</b> <b>Tier I Cursors</b> produce <b>" + styleNumber((building1quantity * building1increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton2").innerHTML = "Cost: " + styleNumber(building2cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building2quantity;
+            // Update the content of hiddenDisplay2
+            document.getElementById("hiddenDisplay2").innerHTML = "You own: <b>" + building2quantity + "</b> <br>" +
+                "Each <b>Tier II Cursor</b> produces an additional <b>" + styleNumber(building2increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building2quantity + "</b> <b>Tier II Cursors</b> produce <b>" + styleNumber((building2quantity * building2increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton3").innerHTML = "Cost: " + styleNumber(building3cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building3quantity;
+            // Update the content of hiddenDisplay3
+            document.getElementById("hiddenDisplay3").innerHTML = "You own: <b>" + building3quantity + "</b> <br>" +
+                "Each <b>Tier III Cursor</b> produces an additional <b>" + styleNumber(building3increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building3quantity + "</b> <b>Tier III Cursors</b> produce <b>" + styleNumber((building3quantity * building3increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton4").innerHTML = "Cost: " + styleNumber(building4cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building4quantity;
+            // Update the content of hiddenDisplay4
+            document.getElementById("hiddenDisplay4").innerHTML = "You own: <b>" + building4quantity + "</b> <br>" +
+                "Each <b>Tier IV Cursor</b> produces an additional <b>" + styleNumber(building4increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building4quantity + "</b> <b>Tier IV Cursors</b> produce <b>" + styleNumber((building4quantity * building4increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton5").innerHTML = "Cost: " + styleNumber(building5cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building5quantity;
+            // Update the content of hiddenDisplay5
+            document.getElementById("hiddenDisplay5").innerHTML = "You own: <b>" + building5quantity + "</b> <br>" +
+                "Each <b>Tier V Cursor</b> produces an additional <b>" + styleNumber(building5increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building5quantity + "</b> <b>Tier V Cursors</b> produce <b>" + styleNumber((building5quantity * building5increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton6").innerHTML = "Cost: " + styleNumber(building6cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building6quantity;
+            // Update the content of hiddenDisplay6
+            document.getElementById("hiddenDisplay6").innerHTML = "You own: <b>" + building6quantity + "</b> <br>" +
+                "Each <b>Tier VI Cursor</b> produces an additional <b>" + styleNumber(building6increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building6quantity + "</b> <b>Tier VI Cursors</b> produce <b>" + styleNumber((building6quantity * building6increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton7").innerHTML = "Cost: " + styleNumber(building7cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building7quantity;
+            // Update the content of hiddenDisplay7
+            document.getElementById("hiddenDisplay7").innerHTML = "You own: <b>" + building7quantity + "</b> <br>" +
+                "Each <b>Tier VII Cursor</b> produces an additional <b>" + styleNumber(building7increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building7quantity + "</b> <b>Tier VII Cursors</b> produce <b>" + styleNumber((building7quantity * building7increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton8").innerHTML = "Cost: " + styleNumber(building8cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building8quantity;
+            // Update the content of hiddenDisplay8
+            document.getElementById("hiddenDisplay8").innerHTML = "You own: <b>" + building8quantity + "</b> <br>" +
+                "Each <b>Tier VIII Cursor</b> produces an additional <b>" + styleNumber(building8increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building8quantity + "</b> <b>Tier VIII Cursors</b> produce <b>" + styleNumber((building8quantity * building8increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton9").innerHTML = "Cost: " + styleNumber(building9cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building9quantity;
+            // Update the content of hiddenDisplay9
+            document.getElementById("hiddenDisplay9").innerHTML = "You own: <b>" + building9quantity + "</b> <br>" +
+                "Each <b>Tier IX Cursor</b> produces an additional <b>" + styleNumber(building9increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building9quantity + "</b> <b>Tier IX Cursors</b> produce <b>" + styleNumber((building9quantity * building9increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton10").innerHTML = "Cost: " + styleNumber(building10cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building10quantity;
+            // Update the content of hiddenDisplay10
+            document.getElementById("hiddenDisplay10").innerHTML = "You own: <b>" + building10quantity + "</b> <br>" +
+                "Each <b>Tier X Cursor</b> produces an additional <b>" + styleNumber(building10increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building10quantity + "</b> <b>Tier X Cursors</b> produce <b>" + styleNumber((building10quantity * building10increment)) + "</b> coins per click." + "<br>[Click to buy]";
+            document.getElementById("displayButton11").innerHTML = "Cost: " + styleNumber(building11cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building11quantity;
+            // Update the content of hiddenDisplay11
+            document.getElementById("hiddenDisplay11").innerHTML = "You own: <b>" + building11quantity + "</b> <br>" +
+                "Each <b>Tier XI Cursor</b> produces an additional <b>" + styleNumber(building11increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building11quantity + "</b> <b>Tier XI Cursors</b> produce <b>" + styleNumber((building11quantity * building11increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton12").innerHTML = "Cost: " + styleNumber(building12cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building12quantity;
+            // Update the content of hiddenDisplay12
+            document.getElementById("hiddenDisplay12").innerHTML = "You own: <b>" + building12quantity + "</b> <br>" +
+                "Each <b>Tier XII Cursor</b> produces an additional <b>" + styleNumber(building12increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building12quantity + "</b> <b>Tier XII Cursors</b> produce <b>" + styleNumber((building12quantity * building12increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton13").innerHTML = "Cost: " + styleNumber(building13cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building13quantity;
+            // Update the content of hiddenDisplay13
+            document.getElementById("hiddenDisplay13").innerHTML = "You own: <b>" + building13quantity + "</b> <br>" +
+                "Each <b>Tier XIII Cursor</b> produces an additional <b>" + styleNumber(building13increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building13quantity + "</b> <b>Tier XIII Cursors</b> produce <b>" + styleNumber((building13quantity * building13increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton14").innerHTML = "Cost: " + styleNumber(building14cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building14quantity;
+            // Update the content of hiddenDisplay14
+            document.getElementById("hiddenDisplay14").innerHTML = "You own: <b>" + building14quantity + "</b> <br>" +
+                "Each <b>Tier XIV Cursor</b> produces an additional <b>" + styleNumber(building14increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building14quantity + "</b> <b>Tier XIV Cursors</b> produce <b>" + styleNumber((building14quantity * building14increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton15").innerHTML = "Cost: " + styleNumber(building15cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building15quantity;
+            // Update the content of hiddenDisplay15
+            document.getElementById("hiddenDisplay15").innerHTML = "You own: <b>" + building15quantity + "</b> <br>" +
+                "Each <b>Tier XV Cursor</b> produces an additional <b>" + styleNumber(building15increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building15quantity + "</b> <b>Tier XV Cursors</b> produce <b>" + styleNumber((building15quantity * building15increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton16").innerHTML = "Cost: " + styleNumber(building16cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building16quantity;
+            // Update the content of hiddenDisplay16
+            document.getElementById("hiddenDisplay16").innerHTML = "You own: <b>" + building16quantity + "</b> <br>" +
+                "Each <b>Tier XVI Cursor</b> produces an additional <b>" + styleNumber(building16increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building16quantity + "</b> <b>Tier XVI Cursors</b> produce <b>" + styleNumber((building16quantity * building16increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton17").innerHTML = "Cost: " + styleNumber(building17cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building17quantity;
+            // Update the content of hiddenDisplay17
+            document.getElementById("hiddenDisplay17").innerHTML = "You own: <b>" + building17quantity + "</b> <br>" +
+                "Each <b>Tier XVII Cursor</b> produces an additional <b>" + styleNumber(building17increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building17quantity + "</b> <b>Tier XVII Cursors</b> produce <b>" + styleNumber((building17quantity * building17increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton18").innerHTML = "Cost: " + styleNumber(building18cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building18quantity;
+            // Update the content of hiddenDisplay18
+            document.getElementById("hiddenDisplay18").innerHTML = "You own: <b>" + building18quantity + "</b> <br>" +
+                "Each <b>Tier XVIII Cursor</b> produces an additional <b>" + styleNumber(building18increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building18quantity + "</b> <b>Tier XVIII Cursors</b> produce <b>" + styleNumber((building18quantity * building18increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton19").innerHTML = "Cost: " + styleNumber(building19cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building19quantity;
+            // Update the content of hiddenDisplay19
+            document.getElementById("hiddenDisplay19").innerHTML = "You own: <b>" + building19quantity + "</b> <br>" +
+                "Each <b>Tier XIX Cursor</b> produces an additional <b>" + styleNumber(building19increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building19quantity + "</b> <b>Tier XIX Cursors</b> produce <b>" + styleNumber((building19quantity * building19increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton20").innerHTML = "Cost: " + styleNumber(building20cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building20quantity;
+            // Update the content of hiddenDisplay20
+            document.getElementById("hiddenDisplay20").innerHTML = "You own: <b>" + building20quantity + "</b> <br>" +
+                "Each <b>Tier XX Cursor</b> produces an additional <b>" + styleNumber(building20increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building20quantity + "</b> <b>Tier XX Cursors</b> produce <b>" + styleNumber((building20quantity * building20increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton21").innerHTML = "Cost: " + styleNumber(building21cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building21quantity;
+            // Update the content of hiddenDisplay21
+            document.getElementById("hiddenDisplay21").innerHTML = "You own: <b>" + building21quantity + "</b> <br>" +
+                "Each <b>Tier XXI Cursor</b> produces an additional <b>" + styleNumber(building21increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building21quantity + "</b> <b>Tier XXI Cursors</b> produce <b>" + styleNumber((building21quantity * building21increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton22").innerHTML = "Cost: " + styleNumber(building22cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building22quantity;
+            // Update the content of hiddenDisplay22
+            document.getElementById("hiddenDisplay22").innerHTML = "You own: <b>" + building22quantity + "</b> <br>" +
+                "Each <b>Tier XXII Cursor</b> produces an additional <b>" + styleNumber(building22increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building22quantity + "</b> <b>Tier XXII Cursors</b> produce <b>" + styleNumber((building22quantity * building22increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton23").innerHTML = "Cost: " + styleNumber(building23cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building23quantity;
+            // Update the content of hiddenDisplay23
+            document.getElementById("hiddenDisplay23").innerHTML = "You own: <b>" + building23quantity + "</b> <br>" +
+                "Each <b>Tier XXIII Cursor</b> produces an additional <b>" + styleNumber(building23increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building23quantity + "</b> <b>Tier XXIII Cursors</b> produce <b>" + styleNumber((building23quantity * building23increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton24").innerHTML = "Cost: " + styleNumber(building24cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building24quantity;
+            // Update the content of hiddenDisplay24
+            document.getElementById("hiddenDisplay24").innerHTML = "You own: <b>" + building24quantity + "</b> <br>" +
+                "Each <b>Tier XXIV Cursor</b> produces an additional <b>" + styleNumber(building24increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building24quantity + "</b> <b>Tier XXIV Cursors</b> produce <b>" + styleNumber((building24quantity * building24increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton25").innerHTML = "Cost: " + styleNumber(building25cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building25quantity;
+            // Update the content of hiddenDisplay25
+            document.getElementById("hiddenDisplay25").innerHTML = "You own: <b>" + building25quantity + "</b> <br>" +
+                "Each <b>Tier XXV Cursor</b> produces an additional <b>" + styleNumber(building25increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building25quantity + "</b> <b>Tier XXV Cursors</b> produce <b>" + styleNumber((building25quantity * building25increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            document.getElementById("displayButton26").innerHTML = "Cost: " + styleNumber(building26cost) + " coins" + "‎  • ‎ " + "You own " + "x" + building26quantity;
+            // Update the content of hiddenDisplay26
+            document.getElementById("hiddenDisplay26").innerHTML = "You own: <b>" + building26quantity + "</b> <br>" +
+                "Each <b>Tier XXVI Cursor</b> produces an additional <b>" + styleNumber(building26increment) + "</b> coins per click. <br>" +
+                "In total, your <b>" + building26quantity + "</b> <b>Tier XXVI Cursors</b> produce <b>" + styleNumber((building26quantity * building26increment)) + "</b> coins per click." + "<br>[Click to buy]";
+
+            increment = multiplier + building1quantity * building1increment + building2quantity * building2increment + building3quantity * building3increment + building4quantity * building4increment + building5quantity * building5increment + building6quantity * building6increment + building7quantity * building7increment + building8quantity * building8increment + building9quantity * building9increment + building10quantity * building10increment + building11quantity * building11increment + building12quantity * building12increment + building13quantity * building13increment + building14quantity * building14increment + building15quantity * building15increment + building16quantity * building16increment + building17quantity * building17increment + building18quantity * building18increment + building19quantity * building19increment + building20quantity * building20increment + building21quantity * building21increment + building22quantity * building22increment + building23quantity * building23increment + building24quantity * building24increment + building25quantity * building25increment + building26quantity * building26increment;
+                building1increment = multiplier * defaultBuilding1increment;
+                building2increment = multiplier * defaultBuilding2increment;
+                building3increment = multiplier * defaultBuilding3increment;
+                building4increment = multiplier * defaultBuilding4increment;
+                building5increment = multiplier * defaultBuilding5increment;
+                building6increment = multiplier * defaultBuilding6increment;
+                building7increment = multiplier * defaultBuilding7increment;
+                building8increment = multiplier * defaultBuilding8increment;
+                building9increment = multiplier * defaultBuilding9increment;
+                building10increment = multiplier * defaultBuilding10increment;
+                building11increment = multiplier * defaultBuilding11increment;
+                building12increment = multiplier * defaultBuilding12increment;
+                building13increment = multiplier * defaultBuilding13increment;
+                building14increment = multiplier * defaultBuilding14increment;
+                building15increment = multiplier * defaultBuilding15increment;
+                building16increment = multiplier * defaultBuilding16increment;
+                building17increment = multiplier * defaultBuilding17increment;
+                building18increment = multiplier * defaultBuilding18increment;
+                building19increment = multiplier * defaultBuilding19increment;
+                building20increment = multiplier * defaultBuilding20increment;
+                building21increment = multiplier * defaultBuilding21increment;
+                building22increment = multiplier * defaultBuilding22increment;
+                building23increment = multiplier * defaultBuilding23increment;
+                building24increment = multiplier * defaultBuilding24increment;
+                building25increment = multiplier * defaultBuilding25increment;
+                building26increment = multiplier * defaultBuilding26increment;
+                document.getElementById('showTheCoins').innerHTML = styleNumber(upgradeMultiCost);
+        }
+
+
+        function clickedEarn() {
+            coins = coins + increment;
+        }
+
+        function buyBuilding1(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building1cost = Math.ceil(building1cost * 1.15);
+                building1quantity = building1quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+        }
+
+        function buyBuilding2(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building2cost = Math.ceil(building2cost * 1.15);
+                building2quantity = building2quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding3(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building3cost = Math.ceil(building3cost * 1.15);
+                building3quantity = building3quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding4(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building4cost = Math.ceil(building4cost * 1.15);
+                building4quantity = building4quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding5(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building5cost = Math.ceil(building5cost * 1.15);
+                building5quantity = building5quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding6(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building6cost = Math.ceil(building6cost * 1.15);
+                building6quantity = building6quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding7(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building7cost = Math.ceil(building7cost * 1.15);
+                building7quantity = building7quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding8(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building8cost = Math.ceil(building8cost * 1.15);
+                building8quantity = building8quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding9(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building9cost = Math.ceil(building9cost * 1.15);
+                building9quantity = building9quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding10(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building10cost = Math.ceil(building10cost * 1.15);
+                building10quantity = building10quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding11(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building11cost = Math.ceil(building11cost * 1.15);
+                building11quantity = building11quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding12(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building12cost = Math.ceil(building12cost * 1.15);
+                building12quantity = building12quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding13(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building13cost = Math.ceil(building13cost * 1.15);
+                building13quantity = building13quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding14(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building14cost = Math.ceil(building14cost * 1.15);
+                building14quantity = building14quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding15(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building15cost = Math.ceil(building15cost * 1.15);
+                building15quantity = building15quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding16(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building16cost = Math.ceil(building16cost * 1.15);
+                building16quantity = building16quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding17(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building17cost = Math.ceil(building17cost * 1.15);
+                building17quantity = building17quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding18(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building18cost = Math.ceil(building18cost * 1.15);
+                building18quantity = building18quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding19(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building19cost = Math.ceil(building19cost * 1.15);
+                building19quantity = building19quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding20(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building20cost = Math.ceil(building20cost * 1.15);
+                building20quantity = building20quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding21(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building21cost = Math.ceil(building21cost * 1.15);
+                building21quantity = building21quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding22(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building22cost = Math.ceil(building22cost * 1.15);
+                building22quantity = building22quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding23(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building23cost = Math.ceil(building23cost * 1.15);
+                building23quantity = building23quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding24(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building24cost = Math.ceil(building24cost * 1.15);
+                building24quantity = building24quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding25(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building25cost = Math.ceil(building25cost * 1.15);
+                building25quantity = building25quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function buyBuilding26(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                building26cost = Math.ceil(building26cost * 1.15);
+                building26quantity = building26quantity + 1;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+
+        }
+
+        function multiUpgrade(cost, multiAdd, multiConfigure, button) {
+            if (coins >= upgradeMultiCost) {
+                coins -= upgradeMultiCost;
+                multiplier = multiplier * multiAdd;
+                upgradeMultiCost = upgradeMultiCost*2.5 + 750;
+                updateData();
+
+                // Remove the button after successful upgrade
+                if (button instanceof HTMLElement && button.parentNode) {
+                    button.parentNode.removeChild(button);
+                }
+
+                // Update the content of the element with ID 'upgradeDisplay'
+                var upgradeDisplay = document.getElementById('upgradeDisplay');
+                if (upgradeDisplay) {
+                    upgradeDisplay.innerHTML += '<button onclick="multiUpgrade(' + upgradeMultiCost + ', ' + multiAdd + ', ' + multiConfigure + ', this)" style="width: 3vw; height: 3vw; background-image: url(\'multiplier.png\'); background-size: 100% 100%;"><div style="width: 11vw; font-size: 0.75vw; background-color: rgba(255,255,255,0.9); text-align: center" class="hiddenDiv">Cost: <b><span id=showTheCoins>100</span>' + ' coins </b> <br> Coins per click multiplier <b>+' + multiConfigure + '%</b><br> [Click to buy]</div></button>';
+                }
+            } else {
+                flashNotEnoughCoins();
+            }
+        }
+
+
+
+
+    </script>
+</head>
+<body>
+    <div id="topBar">Funny (well, not really) Clicker Game‎  • ‎ v2.0.0‎  • ‎ Made with <b><i>love</i></b> by AlgoMarbler‎  • ‎ <a href="https://youtube.com/c/AlgoMarblerYT">My YouTube !!!</a>‎  • ‎ </div>
+    <div id="leftPanelOne">
+        <div style="width: 30vw; height: 20vh; background-color: #DEDEDE">
+            <div style="width: 30vw; height: 45vh; background-color: #EEEEEE; overflow-y: auto; overflow-x: hidden; padding-top: 1vh; padding-bottom: 1vh;" class="custom-scrollbar">
+                <div id="manaBar">
+                    <div id="currentMana"></div>
+                </div>
+
+                <!-- Mana Display -->
+                <div>Mana: <span id="manaDisplay">0</span></div>
+
+                <!-- Buttons for different mana spend quantities -->
+                <button style="height: 3vh; font-size: calc(0.8vh + 0.5vw); width: 49%" onclick="conjureInstantWealth(35, 500)" >Conjure Instant Wealth <b>(35)</b>
+                    <div class="hiddenDiv">
+                        
+                        <span style="font-size: 1.5vh">Instantly summons <b>500 clicks' worth</b> of coins. <br> [Click to buy]</span>
+                    </div>
+                </button>
+                <button style="height: 3vh; font-size: calc(0.8vh + 0.5vw); width: 49%" onclick="conjureInstantWealth(75, 1250)" >Conjure Instant Wealth <b>(75)</b>
+                    <div class="hiddenDiv">
+                        
+                        <span style="font-size: 1.5vh">Instantly summons <b>1250 clicks' worth</b> of coins. <br> [Click to buy]</span>
+                    </div>
+                </button>
+
+                <!-- the next button is acutally a scam as it backfires 50% of the time -->
+                <button style="height: 3vh; font-size: calc(0.8vh + 0.5vw); width: 49%" onclick="gamble(55, 50)" >Gambler's Fever Dream <b>(55)</b>
+                    <div class="hiddenDiv">
+                        
+                        <span style="font-size: 1.5vh"><span style="color: #007700"><b>60%</b> - Instantly <b>doubles</b> your coins</span><br><span style="color: #770000"><b>40%</b> - Instantly <b>halves</b> your coins</span><br> [Click to buy]</span>
+                    </div>
+                </button>
+                <button style="height: 3vh; font-size: calc(0.8vh + 0.5vw); width: 49%" onclick="gamble(80, 25)" >Gambler's Fever Dream <b>(80)</b>
+                    <div class="hiddenDiv">
+                        
+                        <span style="font-size: 1.5vh"><span style="color: #007700"><b>75%</b> - Instantly <b>doubles</b> your coins</span><br><span style="color: #770000"><b>25%</b> - Instantly <b>halves</b> your coins</span><br> [Click to buy]</span>
+                    </div>
+                </button>
+                <button style="height: 3vh; font-size: calc(0.8vh + 0.5vw); width: 99%" onclick="mega(100, 65)" >MEGA GAMBLE <b>(100)</b>
+                    <div class="hiddenDiv">
+                        
+                        <span style="font-size: 1.5vh"><span style="color: #007700"><b>50%</b> - <b>Permanently doubles</b> your multiplier</span><br><span style="color: #770000"><b>50%</b> - <b>Permanently halves</b> your multiplier</span><br> [Click to buy]</span>
+                    </div>
+                </button>
+                <!-- Add more buttons as needed -->
+            </div>
+        </div>
+        <div style="width: 30vw; padding-top: 1vh; padding-bottom: 1vh; padding-left: 1vh; padding-right: 1vh; background-color: #D0D0D0; font-size: 6.5vh; text-align: center; justify-items: center;" >SHOP</div>
+        <div id="upgradeDisplay" style="width: 30vw; height: 3vw; background-color: #000000;">
+
+            <!-- inside here lies the upgrade shop -->
+
+            <button onClick="multiUpgrade(100, 1.01, 1, this)" style="width: 3vw; height: 3vw; background-image: url('multiplier.png'); background-size: 100% 100%;">
+                <div style="width: 11vw; font-size: 0.75vw; background-color: rgba(255,255,255,0.9); text-align: center" class="hiddenDiv">
+                    Cost: <b><span id=showTheCoins>100</span> coins</b> <br>
+                    Coins per click multiplier <b>+1%</b><br>
+                    [Click to buy]
+
+                </div>
+            </button>
+        </div>
+        <div style="width: 30vw; height: 45vh; background-color: #EEEEEE; overflow-y: auto; overflow-x: hidden; padding-top: 1vh; padding-bottom: 1vh;">
+
+            <!-- Here lies the actual buttons for the main shop. -->
+
+            <div style="width: 30vw; text-align: center;">
+                <button onClick = "buyBuilding1(building1cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier1cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton1" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay1"style="width: 18vw; background-color: rgba(255,255,255,0.9); text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier I Cursor</b> produces an additional <b>1</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier I Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+
+                    </div>
+                </button>
+                <!-- Building 2 -->
+                <button onClick="buyBuilding2(building2cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier2cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton2" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay2" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier II Cursor</b> produces an additional <b>5</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier II Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 3 -->
+                <button onClick="buyBuilding3(building3cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier3cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton3" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay3" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier III Cursor</b> produces an additional <b>14</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier III Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 4 -->
+                <button onClick="buyBuilding4(building4cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier4cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton4" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay4" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier IV Cursor</b> produces an additional <b>75</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier IV Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 5 -->
+                <button onClick="buyBuilding5(building5cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier5cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton5" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay5" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier V Cursor</b> produces an additional <b>660</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier V Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 6 -->
+                <button onClick="buyBuilding6(building6cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier6cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton6" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay6" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier VI Cursor</b> produces an additional <b>4750</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier VI Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+                <!-- Building 7 -->
+                <button onClick="buyBuilding7(building7cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier7cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton7" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay7" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier VII Cursor</b> produces an additional <b>21,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier VII Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 8 -->
+                <button onClick="buyBuilding8(building8cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier8cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton8" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay8" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier VIII Cursor</b> produces an additional <b>96,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier VIII Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 9 -->
+                <button onClick="buyBuilding9(building9cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier9cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton9" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay9" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier IX Cursor</b> produces an additional <b>350,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier IX Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 10 -->
+                <button onClick="buyBuilding10(building10cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier10cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton10" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay10" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier X Cursor</b> produces an additional <b>2,500,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier X Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 11 -->
+                <button onClick="buyBuilding11(building11cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier11cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton11" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay11" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XI Cursor</b> produces an additional <b>50,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XI Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 12 -->
+                <button onClick="buyBuilding12(building12cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier12cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton12" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay12" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XII Cursor</b> produces an additional <b>600,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XII Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+                <!-- Building 13 -->
+                <button onClick="buyBuilding13(building13cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier13cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton13" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay13" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XIII Cursor</b> produces an additional <b>9,000,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XIII Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 14 -->
+                <button onClick="buyBuilding14(building14cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier14cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton14" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay14" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XIV Cursor</b> produces an additional <b>800,000,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XIV Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 15 -->
+                <button onClick="buyBuilding15(building15cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier15cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton15" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay15" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XV Cursor</b> produces an additional <b>7,000,000,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XV Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 16 -->
+                <button onClick="buyBuilding16(building16cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier16cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton16" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay16" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XVI Cursor</b> produces an additional <b>6,000,000,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XVI Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 17 -->
+                <button onClick="buyBuilding17(building17cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier17cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton17" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay17" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XVII Cursor</b> produces an additional <b>2,000,000,000,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XVII Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 18 -->
+                <button onClick="buyBuilding18(building18cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier18cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton18" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay18" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XVIII Cursor</b> produces an additional <b>4,000,000,000,000,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XVIII Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+                <!-- Building 19 -->
+                <button onClick="buyBuilding19(building19cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier19cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton19" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay19" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XIX Cursor</b> produces an additional <b>9,500,000,000,000,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XIX Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 20 -->
+                <button onClick="buyBuilding20(building20cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier20cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton20" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay20" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XX Cursor</b> produces an additional <b>3,000,000,000,000,000,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XX Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 21 -->
+                <button onClick="buyBuilding21(building21cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier21cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton21" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay21" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XXI Cursor</b> produces an additional <b>8,000,000,000,000,000,000,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XXI Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 22 -->
+                <button onClick="buyBuilding22(building22cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier22cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton22" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay22" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XXII Cursor</b> produces an additional <b>4,500,000,000,000,000,000,000,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XXII Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 23 -->
+                <button onClick="buyBuilding23(building23cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier23cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton23" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay23" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XXIII Cursor</b> produces an additional <b>9,000,000,000,000,000,000,000,000,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XXIII Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 24 -->
+                <button onClick="buyBuilding24(building24cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier24cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton24" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay24" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XXIV Cursor</b> produces an additional <b>2,500,000,000,000,000,000,000,000,000,000,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XXIV Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 25 -->
+                <button onClick="buyBuilding25(building25cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier25cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton25" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay25" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XXV Cursor</b> produces an additional <b>9,000,000,000,000,000,000,000,000,000,000,000,000,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XXV Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+
+                <!-- Building 26 -->
+                <button onClick="buyBuilding26(building26cost)" style="border: 1px solid rgba(0, 0, 0, 0.0); width: 28vw; height: 3.5vw; background-image: url('tier26cursor.png'); background-size: 100% 100%;">
+                    <div style="height: 2.125vw; width: 28vw"></div>
+                    <div id="displayButton26" style="height: 1.375vw; width: 28vw; font-size: 0.875vw; text-align: center;"></div>
+                    <div id="hiddenDisplay26" style="width: 18vw; background-color: rgba(255,255,255,0.9);text-align: center" class="hiddenDiv">
+                        You own: <b>0</b> <br>
+                        Each <b>Tier XXVI Cursor</b> produces an additional <b>4,200,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000</b> coins per click. <br>
+                        In total, your <b>0</b> <b>Tier XXVI Cursors</b> produce <b>0</b> coins per click.<br>[Click to buy]
+                    </div>
+                </button>
+            </div>
+
+        </div>
+        <div style="width: 30vw; height: 25vh; background-color: #AAAAAA;" ></div>
+    </div>
+    <div id="content">
+        <button style="font-size: 12vh; padding-top: 2vh; padding-bottom: 2vh; padding-left: 2vw; padding-right: 2vw; width: 40vw" onclick="clickedEarn()">
+            Click me to earn coins !!!
+        </button>
+        <span style="text-align: center; width: 100%; float: left; background-color: #BBBBBB">
+            <span id="coinDisplay" style="font-size: 8vh;">Coins: 0 </span>
+            <span id="incrementDisplay" style="height: 5vh; width: 100%; float: left; font-size: 4vh;">Per Click:</span>
+        </span>
+    </div>
+    <div id="rightPanelOne">
+        <div style="width: 30vw; height: 18vh; background-color: #D8D8D8">
+            <div style="display: flex; align-items: center; justify-content: center; font-size: 3vh;">Run started: <b></div>
+            <div style="display: flex; align-items: center; justify-content: center; font-size: 9vh;" id="timer">0d 0h 0m 0s</div>
+            <div style="display: flex; align-items: center; justify-content: center; font-size: 3vh;"></b> ago</div>
+        </div>
+        <div style="width: 30vw; height: 39vh; background-color: #F0F0F0">
+            <span style="font-size: 3vh">Clicky Boosty</span> <button style="height: 3vh; font-size: 2vh;"  id="clickyBoostyDisplay" onClick="clickyBoosty(clickyBoostyCost)">
+                Buy (1 million)
+            </button><br>
+            <span style="font-size: 2vh"><b>Permanently</b> multiplies your <b>CpC</b> by <b>35%</b></span>
+        </div>
+        <div style="width: 30vw; height: 39vh; background-color: #FFFFFF">
+            <button onclick="saveGame()">Save</button>
+            <button onclick="loadGame()">Load</button>
+        </div>
+    </div>
+</body>
+</html>
