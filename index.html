@@ -137,6 +137,7 @@
         var randomNumber = 0;
         var multiplier = 1;
         var clickyBoostyCost = 1e+6;
+        var manaBoostyCost = 2.5e+7;
         var upgradeMultiCost = 100;
         var totalBuildings = 0;
 
@@ -337,6 +338,7 @@
                 randomNumber,
                 multiplier,
                 clickyBoostyCost,
+                manaBoostyCost,
                 building1quantity,
                 defaultBuilding1increment,
                 building1increment,
@@ -443,6 +445,7 @@
                 building26cost,
                 upgradeMultiCost,
                 startTime: startTime,
+                manaSpeed,
             };
 
             localStorage.setItem('gameSave', JSON.stringify(saveData));
@@ -455,120 +458,140 @@
             var saveData = localStorage.getItem('gameSave');
             if (saveData) {
                 saveData = JSON.parse(saveData);
-                mana = saveData.mana;
-                maxMana = saveData.maxMana;
-                manaSpeed = saveData.manaSpeed;
-                coins = saveData.coins;
-                increment = saveData.increment;
-                randomNumber = saveData.randomNumber;
-                multiplier = saveData.multiplier;
-                clickyBoostyCost = saveData.clickyBoostyCost;
-                building1quantity = saveData.building1quantity;
-                defaultBuilding1increment = saveData.defaultBuilding1increment;
-                building1increment = saveData.building1increment;
-                building1cost = saveData.building1cost;
-                building2quantity = saveData.building2quantity;
-                defaultBuilding2increment = saveData.defaultBuilding2increment;
-                building2increment = saveData.building2increment;
-                building2cost = saveData.building2cost;
-                building3quantity = saveData.building3quantity;
-                defaultBuilding3increment = saveData.defaultBuilding3increment;
-                building3increment = saveData.building3increment;
-                building3cost = saveData.building3cost;
-                building4quantity = saveData.building4quantity;
-                defaultBuilding4increment = saveData.defaultBuilding4increment;
-                building4increment = saveData.building4increment;
-                building4cost = saveData.building4cost;
-                building5quantity = saveData.building5quantity;
-                defaultBuilding5increment = saveData.defaultBuilding5increment;
-                building5increment = saveData.building5increment;
-                building5cost = saveData.building5cost;
-                building6quantity = saveData.building6quantity;
-                defaultBuilding6increment = saveData.defaultBuilding6increment;
-                building6increment = saveData.building6increment;
-                building6cost = saveData.building6cost;
-                building7quantity = saveData.building7quantity;
-                defaultBuilding7increment = saveData.defaultBuilding7increment;
-                building7increment = saveData.building7increment;
-                building7cost = saveData.building7cost;
-                building8quantity = saveData.building8quantity;
-                defaultBuilding8increment = saveData.defaultBuilding8increment;
-                building8increment = saveData.building8increment;
-                building8cost = saveData.building8cost;
-                building9quantity = saveData.building9quantity;
-                defaultBuilding9increment = saveData.defaultBuilding9increment;
-                building9increment = saveData.building9increment;
-                building9cost = saveData.building9cost;
-                building10quantity = saveData.building10quantity;
-                defaultBuilding10increment = saveData.defaultBuilding10increment;
-                building10increment = saveData.building10increment;
-                building10cost = saveData.building10cost;
-                building11quantity = saveData.building11quantity;
-                defaultBuilding11increment = saveData.defaultBuilding11increment;
-                building11increment = saveData.building11increment;
-                building11cost = saveData.building11cost;
-                building12quantity = saveData.building12quantity;
-                defaultBuilding12increment = saveData.defaultBuilding12increment;
-                building12increment = saveData.building12increment;
-                building12cost = saveData.building12cost;
-                building13quantity = saveData.building13quantity;
-                defaultBuilding13increment = saveData.defaultBuilding13increment;
-                building13increment = saveData.building13increment;
-                building13cost = saveData.building13cost;
-                building14quantity = saveData.building14quantity;
-                defaultBuilding14increment = saveData.defaultBuilding14increment;
-                building14increment = saveData.building14increment;
-                building14cost = saveData.building14cost;
-                building15quantity = saveData.building15quantity;
-                defaultBuilding15increment = saveData.defaultBuilding15increment;
-                building15increment = saveData.building15increment;
-                building15cost = saveData.building15cost;
-                building16quantity = saveData.building16quantity;
-                defaultBuilding16increment = saveData.defaultBuilding16increment;
-                building16increment = saveData.building16increment;
-                building16cost = saveData.building16cost;
-                building17quantity = saveData.building17quantity;
-                defaultBuilding17increment = saveData.defaultBuilding17increment;
-                building17increment = saveData.building17increment;
-                building17cost = saveData.building17cost;
-                building18quantity = saveData.building18quantity;
-                defaultBuilding18increment = saveData.defaultBuilding18increment;
-                building18increment = saveData.building18increment;
-                building18cost = saveData.building18cost;
-                building19quantity = saveData.building19quantity;
-                defaultBuilding19increment = saveData.defaultBuilding19increment;
-                building19increment = saveData.building19increment;
-                building19cost = saveData.building19cost;
-                building20quantity = saveData.building20quantity;
-                defaultBuilding20increment = saveData.defaultBuilding20increment;
-                building20increment = saveData.building20increment;
-                building20cost = saveData.building20cost;
-                building21quantity = saveData.building21quantity;
-                defaultBuilding21increment = saveData.defaultBuilding21increment;
-                building21increment = saveData.building21increment;
-                building21cost = saveData.building21cost;
-                building22quantity = saveData.building22quantity;
-                defaultBuilding22increment = saveData.defaultBuilding22increment;
-                building22increment = saveData.building22increment;
-                building22cost = saveData.building22cost;
-                building23quantity = saveData.building23quantity;
-                defaultBuilding23increment = saveData.defaultBuilding23increment;
-                building23increment = saveData.building23increment;
-                building23cost = saveData.building23cost;
-                building24quantity = saveData.building24quantity;
-                defaultBuilding24increment = saveData.defaultBuilding24increment;
-                building24increment = saveData.building24increment;
-                building24cost = saveData.building24cost;
-                building25quantity = saveData.building25quantity;
-                defaultBuilding25increment = saveData.defaultBuilding25increment;
-                building25increment = saveData.building25increment;
-                building25cost = saveData.building25cost;
-                building26quantity = saveData.building26quantity;
-                defaultBuilding26increment = saveData.defaultBuilding26increment;
-                building26increment = saveData.building26increment;
-                building26cost = saveData.building26cost;
-                upgradeMultiCost = saveData.upgradeMultiCost;
+                mana = saveData.mana || 0;
+                maxMana = saveData.maxMana || 100;
+                manaSpeed = saveData.manaSpeed || 0.25;
+                coins = saveData.coins || 0;
+                increment = saveData.increment || 1;
+                randomNumber = saveData.randomNumber|| 0;
+                multiplier = saveData.multiplier || 1;
+                clickyBoostyCost = saveData.clickyBoostyCost|| 1e+6;
+                manaBoostyCost = saveData.manaBoostyCost || 2.5e+7;
+                building1quantity = saveData.building1quantity || 0;
+                defaultBuilding1increment = saveData.defaultBuilding1increment || 1;
+                building1increment = saveData.building1increment || 1;
+                building1cost = saveData.building1cost || 15;
+                building2quantity = saveData.building2quantity || 0;
+                defaultBuilding2increment = saveData.defaultBuilding2increment || 5;
+                building2increment = saveData.building2increment || 5;
+                building2cost = saveData.building2cost || 100;
+                building3quantity = saveData.building3quantity || 0;
+                defaultBuilding3increment = saveData.defaultBuilding3increment || 14;
+                building3increment = saveData.building3increment || 14;
+                building3cost = saveData.building3cost || 1100;
+                building4quantity = saveData.building4quantity || 0;
+                defaultBuilding4increment = saveData.defaultBuilding4increment || 75;
+                building4increment = saveData.building4increment || 75;
+                building4cost = saveData.building4cost || 12000;
+                building5quantity = saveData.building5quantity || 0;
+                defaultBuilding5increment = saveData.defaultBuilding5increment || 660;
+                building5increment = saveData.building5increment || 660;
+                building5cost = saveData.building5cost || 130000;
+                building6quantity = saveData.building6quantity || 0;
+                defaultBuilding6increment = saveData.defaultBuilding6increment || 4750;
+                building6increment = saveData.building6increment || 4750;
+                building6cost = saveData.building6cost || 1400000;
+                building7quantity = saveData.building7quantity || 0;
+                defaultBuilding7increment = saveData.defaultBuilding7increment || 21000;
+                building7increment = saveData.building7increment || 21000;
+                building7cost = saveData.building7cost || 2e+7;
+                building8quantity = saveData.building8quantity || 0;
+                defaultBuilding8increment = saveData.defaultBuilding8increment || 96000;
+                building8increment = saveData.building8increment || 96000;
+                building8cost = saveData.building8cost || 3.3e+8;
+
+                building9quantity = saveData.building9quantity || 0;
+                defaultBuilding9increment = saveData.defaultBuilding9increment || 350000;
+                building9increment = saveData.building9increment || 350000;
+                building9cost = saveData.building9cost || 5.1e+9;
+
+                building10quantity = saveData.building10quantity || 0;
+                defaultBuilding10increment = saveData.defaultBuilding10increment || 2500000;
+                building10increment = saveData.building10increment || 2500000;
+                building10cost = saveData.building10cost || 7.5e+10;
+
+                building11quantity = saveData.building11quantity || 0;
+                defaultBuilding11increment = saveData.defaultBuilding11increment || 5e+7;
+                building11increment = saveData.building11increment || 5e+7;
+                building11cost = saveData.building11cost || 1e+12;
+
+                building12quantity = saveData.building12quantity || 0;
+                defaultBuilding12increment = saveData.defaultBuilding12increment || 6e+8;
+                building12increment = saveData.building12increment || 6e+8;
+                building12cost = saveData.building12cost || 1.4e+13;
+
+                building13quantity = saveData.building13quantity || 0;
+                defaultBuilding13increment = saveData.defaultBuilding13increment || 9e+9;
+                building13increment = saveData.building13increment || 9e+9;
+                building13cost = saveData.building13cost || 1.7e+14;
+
+                building14quantity = saveData.building14quantity || 0;
+                defaultBuilding14increment = saveData.defaultBuilding14increment || 8e+11;
+                building14increment = saveData.building14increment || 8e+11;
+                building14cost = saveData.building14cost || 2.1e+15;
+
+                building15quantity = saveData.building15quantity || 0;
+                defaultBuilding15increment = saveData.defaultBuilding15increment || 7e+12;
+                building15increment = saveData.building15increment || 7e+12;
+                building15cost = saveData.building15cost || 2.6e+16;
+
+                building16quantity = saveData.building16quantity || 0;
+                defaultBuilding16increment = saveData.defaultBuilding16increment || 6e+13;
+                building16increment = saveData.building16increment || 6e+13;
+                building16cost = saveData.building16cost || 3.1e+17;
+
+                building17quantity = saveData.building17quantity || 0;
+                defaultBuilding17increment = saveData.defaultBuilding17increment || 2e+15;
+                building17increment = saveData.building17increment || 2e+15;
+                building17cost = saveData.building17cost || 7.1e+19;
+
+                building18quantity = saveData.building18quantity || 0;
+                defaultBuilding18increment = saveData.defaultBuilding18increment || 4e+17;
+                building18increment = saveData.building18increment || 4e+17;
+                building18cost = saveData.building18cost || 1.2e+22;
+
+                building19quantity = saveData.building19quantity || 0;
+                defaultBuilding19increment = saveData.defaultBuilding19increment || 9.5e+19;
+                building19increment = saveData.building19increment || 9.5e+19;
+                building19cost = saveData.building19cost || 1.9e+24;
+
+                building20quantity = saveData.building20quantity || 0;
+                defaultBuilding20increment = saveData.defaultBuilding20increment || 3e+22;
+                building20increment = saveData.building20increment || 3e+22;
+                building20cost = saveData.building20cost || 5.4e+26;
+
+                building21quantity = saveData.building21quantity || 0;
+                defaultBuilding21increment = saveData.defaultBuilding21increment || 8e+24;
+                building21increment = saveData.building21increment || 8e+24;
+                building21cost = saveData.building21cost || 1.6e+29;
+
+                building22quantity = saveData.building22quantity || 0;
+                defaultBuilding22increment = saveData.defaultBuilding22increment || 4.5e+27;
+                building22increment = saveData.building22increment || 4.5e+27;
+                building22cost = saveData.building22cost || 6.6e+31;
+
+                building23quantity = saveData.building23quantity || 0;
+                defaultBuilding23increment = saveData.defaultBuilding23increment || 9e+29;
+                building23increment = saveData.building23increment || 9e+29;
+                building23cost = saveData.building23cost || 5e+34;
+
+                building24quantity = saveData.building24quantity || 0;
+                defaultBuilding24increment = saveData.defaultBuilding24increment || 2.5e+32;
+                building24increment = saveData.building24increment || 2.5e+32;
+                building24cost = saveData.building24cost || 6.2e+37;
+
+                building25quantity = saveData.building25quantity || 0;
+                defaultBuilding25increment = saveData.defaultBuilding25increment || 9e+35;
+                building25increment = saveData.building25increment || 9e+35;
+                building25cost = saveData.building25cost || 1.1e+41;
+
+                building26quantity = saveData.building26quantity || 0;
+                defaultBuilding26increment = saveData.defaultBuilding26increment || 4.2e+38;
+                building26increment = saveData.building26increment || 4.2e+38;
+                building26cost = saveData.building26cost || 9.2e+45;
+
                 startTime = saveData.startTime;
+                manaSpeed = saveData.manaSpeed || 0.25;
 
                 alert("Game loaded!");
             } else {
@@ -598,6 +621,17 @@
                 coins -= cost;
                 clickyBoostyCost = Math.ceil(12859000 + clickyBoostyCost * 37.141);
                 multiplier=multiplier*1.35;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+        }
+
+        function manaBoosty(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                manaBoostyCost = Math.ceil(25000000 + manaBoostyCost * 3);
+                manaSpeed = manaSpeed + 0.01;
                 updateData();
             }else{
                 flashNotEnoughCoins();
@@ -773,9 +807,10 @@
 
         function updateData() {
             document.getElementById('clickyBoostyDisplay').innerHTML = "Buy (" + styleNumber(clickyBoostyCost) + " coins)";
+            document.getElementById('manaBoostyDisplay').innerHTML = "Buy (" + styleNumber(manaBoostyCost) + " coins)";
             document.getElementById('coinDisplay').innerHTML = "Coins: <b>" + styleNumber(coins) + "</b>";
             document.getElementById('incrementDisplay').innerHTML = "Per Click: <b>" + styleNumber(increment) + "</b>" + " (multiplier: <b>x" + multiplier.toFixed(2) + "</b>)";
-            document.getElementById("manaDisplay").innerHTML = Math.round(mana) + "/" + maxMana + " (+" + manaSpeed + "/s)";
+            document.getElementById("manaDisplay").innerHTML = Math.round(mana) + "/" + maxMana + " (+" + manaSpeed.toFixed(2) + "/s)";
             var manaPercentage = (mana / maxMana) * 100;
 
             document.getElementById("currentMana").style.width = manaPercentage + "%";
@@ -1696,11 +1731,17 @@ Step ASIAN) u are a true Asian and will no longer have to face the terrible trut
             <div style="display: flex; align-items: center; justify-content: center; font-size: 9vh;" id="timer">0d 0h 0m 0s</div>
             <div style="display: flex; align-items: center; justify-content: center; font-size: 3vh;"></b> ago</div>
         </div>
-        <div style="width: 30vw; height: 39vh; background-color: #F0F0F0">
+        <div style="width: 30vw; height: 7vh; background-color: #F0F0F0">
             <span style="font-size: 3vh">Clicky Boosty</span> <button style="height: 3vh; font-size: 2vh;"  id="clickyBoostyDisplay" onClick="clickyBoosty(clickyBoostyCost)">
                 Buy (1 million)
             </button><br>
             <span style="font-size: 2vh"><b>Permanently</b> multiplies your <b>CpC</b> by <b>35%</b></span>
+        </div>
+        <div style="width: 30vw; height: 39vh; background-color: #F0F0F0">
+            <span style="font-size: 3vh">Mana Boosty</span> <button style="height: 3vh; font-size: 2vh;"  id="manaBoostyDisplay" onClick="manaBoosty(manaBoostyCost)">
+                Buy (25.000 million)
+            </button><br>
+            <span style="font-size: 2vh"><b>Permanently</b> speeds up your <b>mana production</b> by <b>0.01/s</b></span>
         </div>
         <div style="width: 30vw; height: 39vh; background-color: #FFFFFF">
             <button onclick="saveGame()">Save</button>
