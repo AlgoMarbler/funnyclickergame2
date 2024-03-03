@@ -675,11 +675,13 @@
             setTimeout(function () {
             document.getElementById("coinDisplay").classList.remove("notEnoughCoins");
             }, 500);
+            updateData();
         }
 
 
 
         function gamble(cost, successChance) {
+            updateData();
             if (mana >= cost) {
                 mana -= cost;
                 
@@ -714,6 +716,7 @@
         }
 
         function mega(cost, successChance) {
+            updateData();
             if (mana >= cost) {
                 mana -= cost;
                 if (Math.random() > (successChance/100)) {
@@ -741,6 +744,7 @@
 
         // Function to increase mana
         function increaseMana() {
+            updateData();
             if (mana < maxMana) {
                 mana += (manaSpeed*0.1);
             }
@@ -1002,10 +1006,12 @@
 
 
         function clickedEarn() {
+            updateData();
             coins = coins + increment;
         }
 
         function buyBuilding1(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building1cost = Math.ceil(building1cost * 1.15);
@@ -1017,6 +1023,7 @@
         }
 
         function buyBuilding2(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building2cost = Math.ceil(building2cost * 1.15);
@@ -1029,6 +1036,7 @@
         }
 
         function buyBuilding3(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building3cost = Math.ceil(building3cost * 1.15);
@@ -1041,6 +1049,7 @@
         }
 
         function buyBuilding4(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building4cost = Math.ceil(building4cost * 1.15);
@@ -1053,6 +1062,7 @@
         }
 
         function buyBuilding5(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building5cost = Math.ceil(building5cost * 1.15);
@@ -1065,6 +1075,7 @@
         }
 
         function buyBuilding6(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building6cost = Math.ceil(building6cost * 1.15);
@@ -1077,6 +1088,7 @@
         }
 
         function buyBuilding7(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building7cost = Math.ceil(building7cost * 1.15);
@@ -1089,6 +1101,7 @@
         }
 
         function buyBuilding8(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building8cost = Math.ceil(building8cost * 1.15);
@@ -1101,6 +1114,7 @@
         }
 
         function buyBuilding9(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building9cost = Math.ceil(building9cost * 1.15);
@@ -1113,6 +1127,7 @@
         }
 
         function buyBuilding10(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building10cost = Math.ceil(building10cost * 1.15);
@@ -1125,6 +1140,7 @@
         }
 
         function buyBuilding11(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building11cost = Math.ceil(building11cost * 1.15);
@@ -1137,6 +1153,7 @@
         }
 
         function buyBuilding12(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building12cost = Math.ceil(building12cost * 1.15);
@@ -1149,6 +1166,7 @@
         }
 
         function buyBuilding13(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building13cost = Math.ceil(building13cost * 1.15);
@@ -1161,6 +1179,7 @@
         }
 
         function buyBuilding14(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building14cost = Math.ceil(building14cost * 1.15);
@@ -1173,6 +1192,7 @@
         }
 
         function buyBuilding15(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building15cost = Math.ceil(building15cost * 1.15);
@@ -1185,6 +1205,7 @@
         }
 
         function buyBuilding16(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building16cost = Math.ceil(building16cost * 1.15);
@@ -1197,6 +1218,7 @@
         }
 
         function buyBuilding17(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building17cost = Math.ceil(building17cost * 1.15);
@@ -1209,6 +1231,7 @@
         }
 
         function buyBuilding18(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building18cost = Math.ceil(building18cost * 1.15);
@@ -1221,6 +1244,7 @@
         }
 
         function buyBuilding19(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building19cost = Math.ceil(building19cost * 1.15);
@@ -1233,6 +1257,7 @@
         }
 
         function buyBuilding20(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building20cost = Math.ceil(building20cost * 1.15);
@@ -1245,6 +1270,7 @@
         }
 
         function buyBuilding21(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building21cost = Math.ceil(building21cost * 1.15);
@@ -1257,6 +1283,7 @@
         }
 
         function buyBuilding22(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building22cost = Math.ceil(building22cost * 1.15);
@@ -1269,6 +1296,7 @@
         }
 
         function buyBuilding23(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building23cost = Math.ceil(building23cost * 1.15);
@@ -1281,6 +1309,7 @@
         }
 
         function buyBuilding24(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building24cost = Math.ceil(building24cost * 1.15);
@@ -1293,6 +1322,7 @@
         }
 
         function buyBuilding25(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building25cost = Math.ceil(building25cost * 1.15);
@@ -1305,6 +1335,7 @@
         }
 
         function buyBuilding26(cost) {
+            updateData();
             if(coins >= cost) {
                 coins -= cost;
                 building26cost = Math.ceil(building26cost * 1.15);
@@ -1317,11 +1348,11 @@
         }
 
         function multiUpgrade(cost, multiAdd, multiConfigure, button) {
+            updateData();
             if (coins >= upgradeMultiCost) {
                 coins -= upgradeMultiCost;
                 multiplier = multiplier * multiAdd;
                 upgradeMultiCost = upgradeMultiCost*2.5 + 750;
-                updateData();
 
                 // Remove the button after successful upgrade
                 if (button instanceof HTMLElement && button.parentNode) {
