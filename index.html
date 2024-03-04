@@ -331,6 +331,317 @@
             }
         }
 
+		function exportSave() {
+			var gameState = {
+			    mana: mana,
+			    maxMana: maxMana,
+			    manaSpeed: manaSpeed,
+			    coins: coins,
+			    increment: increment,
+			    clickyBoostyCost: clickyBoostyCost,
+			    manaBoostyCost: manaBoostyCost,
+			    upgradeMultiCost: upgradeMultiCost,
+			    totalBuildings: totalBuildings,
+			    increaseMaxManaCost: increaseMaxManaCost,
+
+			    building1quantity: building1quantity,
+			    defaultBuilding1increment: defaultBuilding1increment,
+			    building1increment: building1increment,
+			    building1cost: building1cost,
+
+			    building2quantity: building2quantity,
+			    defaultBuilding2increment: defaultBuilding2increment,
+			    building2increment: building2increment,
+			    building2cost: building2cost,
+
+			    building3quantity: building3quantity,
+			    defaultBuilding3increment: defaultBuilding3increment,
+			    building3increment: building3increment,
+			    building3cost: building3cost,
+
+			    building4quantity: building4quantity,
+			    defaultBuilding4increment: defaultBuilding4increment,
+			    building4increment: building4increment,
+			    building4cost: building4cost,
+
+			    building5quantity: building5quantity,
+			    defaultBuilding5increment: defaultBuilding5increment,
+			    building5increment: building5increment,
+			    building5cost: building5cost,
+
+			    building6quantity: building6quantity,
+			    defaultBuilding6increment: defaultBuilding6increment,
+			    building6increment: building6increment,
+			    building6cost: building6cost,
+
+			    building7quantity: building7quantity,
+			    defaultBuilding7increment: defaultBuilding7increment,
+			    building7increment: building7increment,
+			    building7cost: building7cost,
+
+			    building8quantity: building8quantity,
+			    defaultBuilding8increment: defaultBuilding8increment,
+			    building8increment: building8increment,
+			    building8cost: building8cost,
+
+			    building9quantity: building9quantity,
+			    defaultBuilding9increment: defaultBuilding9increment,
+			    building9increment: building9increment,
+			    building9cost: building9cost,
+
+			    building10quantity: building10quantity,
+			    defaultBuilding10increment: defaultBuilding10increment,
+			    building10increment: building10increment,
+			    building10cost: building10cost,
+
+			    building11quantity: building11quantity,
+			    defaultBuilding11increment: defaultBuilding11increment,
+			    building11increment: building11increment,
+			    building11cost: building11cost,
+
+			    building12quantity: building12quantity,
+			    defaultBuilding12increment: defaultBuilding12increment,
+			    building12increment: building12increment,
+			    building12cost: building12cost,
+
+			    building13quantity: building13quantity,
+			    defaultBuilding13increment: defaultBuilding13increment,
+			    building13increment: building13increment,
+			    building13cost: building13cost,
+
+			    building14quantity: building14quantity,
+			    defaultBuilding14increment: defaultBuilding14increment,
+			    building14increment: building14increment,
+			    building14cost: building14cost,
+
+			    building15quantity: building15quantity,
+			    defaultBuilding15increment: defaultBuilding15increment,
+			    building15increment: building15increment,
+			    building15cost: building15cost,
+
+			    building16quantity: building16quantity,
+			    defaultBuilding16increment: defaultBuilding16increment,
+			    building16increment: building16increment,
+			    building16cost: building16cost,
+
+			    building17quantity: building17quantity,
+			    defaultBuilding17increment: defaultBuilding17increment,
+			    building17increment: building17increment,
+			    building17cost: building17cost,
+
+			    building18quantity: building18quantity,
+			    defaultBuilding18increment: defaultBuilding18increment,
+			    building18increment: building18increment,
+			    building18cost: building18cost,
+
+			    building19quantity: building19quantity,
+			    defaultBuilding19increment: defaultBuilding19increment,
+			    building19increment: building19increment,
+			    building19cost: building19cost,
+
+			    building20quantity: building20quantity,
+			    defaultBuilding20increment: defaultBuilding20increment,
+			    building20increment: building20increment,
+			    building20cost: building20cost,
+
+			    building21quantity: building21quantity,
+			    defaultBuilding21increment: defaultBuilding21increment,
+			    building21increment: building21increment,
+			    building21cost: building21cost,
+
+			    building22quantity: building22quantity,
+			    defaultBuilding22increment: defaultBuilding22increment,
+			    building22increment: building22increment,
+			    building22cost: building22cost,
+
+			    building23quantity: building23quantity,
+			    defaultBuilding23increment: defaultBuilding23increment,
+			    building23increment: building23increment,
+			    building23cost: building23cost,
+
+			    building24quantity: building24quantity,
+			    defaultBuilding24increment: defaultBuilding24increment,
+			    building24increment: building24increment,
+			    building24cost: building24cost,
+
+			    building25quantity: building25quantity,
+			    defaultBuilding25increment: defaultBuilding25increment,
+			    building25increment: building25increment,
+			    building25cost: building25cost,
+
+			    building26quantity: building26quantity,
+			    defaultBuilding26increment: defaultBuilding26increment,
+			    building26increment: building26increment,
+			    building26cost: building26cost,
+
+			    priorTime: priorTime,
+			    elapsedTime: elapsedTime,
+			    startTime: startTime,
+			    timerInterval: timerInterval
+			};
+
+			var gameStateString = JSON.stringify(gameState);
+		    copyGameStateToClipboard(gameStateString);
+		}
+
+		// Function to import the game state
+		function importSave(savedData) {
+		    var gameState = JSON.parse(savedData);
+
+				mana = gameState.mana;
+				maxMana = gameState.maxMana;
+				manaSpeed = gameState.manaSpeed;
+				coins = gameState.coins;
+				increment = gameState.increment;
+				clickyBoostyCost = gameState.clickyBoostyCost;
+				manaBoostyCost = gameState.manaBoostyCost;
+				upgradeMultiCost = gameState.upgradeMultiCost;
+				totalBuildings = gameState.totalBuildings;
+				increaseMaxManaCost = gameState.increaseMaxManaCost;
+
+				building1quantity = gameState.building1quantity;
+				defaultBuilding1increment = gameState.defaultBuilding1increment;
+				building1increment = gameState.building1increment;
+				building1cost = gameState.building1cost;
+
+				building2quantity = gameState.building2quantity;
+				defaultBuilding2increment = gameState.defaultBuilding2increment;
+				building2increment = gameState.building2increment;
+				building2cost = gameState.building2cost;
+
+				building3quantity = gameState.building3quantity;
+				defaultBuilding3increment = gameState.defaultBuilding3increment;
+				building3increment = gameState.building3increment;
+				building3cost = gameState.building3cost;
+
+				building4quantity = gameState.building4quantity;
+				defaultBuilding4increment = gameState.defaultBuilding4increment;
+				building4increment = gameState.building4increment;
+				building4cost = gameState.building4cost;
+
+				building5quantity = gameState.building5quantity;
+				defaultBuilding5increment = gameState.defaultBuilding5increment;
+				building5increment = gameState.building5increment;
+				building5cost = gameState.building5cost;
+
+				building6quantity = gameState.building6quantity;
+				defaultBuilding6increment = gameState.defaultBuilding6increment;
+				building6increment = gameState.building6increment;
+				building6cost = gameState.building6cost;
+
+				building7quantity = gameState.building7quantity;
+				defaultBuilding7increment = gameState.defaultBuilding7increment;
+				building7increment = gameState.building7increment;
+				building7cost = gameState.building7cost;
+
+				building8quantity = gameState.building8quantity;
+				defaultBuilding8increment = gameState.defaultBuilding8increment;
+				building8increment = gameState.building8increment;
+				building8cost = gameState.building8cost;
+
+				building9quantity = gameState.building9quantity;
+				defaultBuilding9increment = gameState.defaultBuilding9increment;
+				building9increment = gameState.building9increment;
+				building9cost = gameState.building9cost;
+
+				building10quantity = gameState.building10quantity;
+				defaultBuilding10increment = gameState.defaultBuilding10increment;
+				building10increment = gameState.building10increment;
+				building10cost = gameState.building10cost;
+
+				building11quantity = gameState.building11quantity;
+				defaultBuilding11increment = gameState.defaultBuilding11increment;
+				building11increment = gameState.building11increment;
+				building11cost = gameState.building11cost;
+
+				building12quantity = gameState.building12quantity;
+				defaultBuilding12increment = gameState.defaultBuilding12increment;
+				building12increment = gameState.building12increment;
+				building12cost = gameState.building12cost;
+
+				building13quantity = gameState.building13quantity;
+				defaultBuilding13increment = gameState.defaultBuilding13increment;
+				building13increment = gameState.building13increment;
+				building13cost = gameState.building13cost;
+
+				building14quantity = gameState.building14quantity;
+				defaultBuilding14increment = gameState.defaultBuilding14increment;
+				building14increment = gameState.building14increment;
+				building14cost = gameState.building14cost;
+
+				building15quantity = gameState.building15quantity;
+				defaultBuilding15increment = gameState.defaultBuilding15increment;
+				building15increment = gameState.building15increment;
+				building15cost = gameState.building15cost;
+
+				building16quantity = gameState.building16quantity;
+				defaultBuilding16increment = gameState.defaultBuilding16increment;
+				building16increment = gameState.building16increment;
+				building16cost = gameState.building16cost;
+
+				building17quantity = gameState.building17quantity;
+				defaultBuilding17increment = gameState.defaultBuilding17increment;
+				building17increment = gameState.building17increment;
+				building17cost = gameState.building17cost;
+
+				building18quantity = gameState.building18quantity;
+				defaultBuilding18increment = gameState.defaultBuilding18increment;
+				building18increment = gameState.building18increment;
+				building18cost = gameState.building18cost;
+
+				building19quantity = gameState.building19quantity;
+				defaultBuilding19increment = gameState.defaultBuilding19increment;
+				building19increment = gameState.building19increment;
+				building19cost = gameState.building19cost;
+
+				building20quantity = gameState.building20quantity;
+				defaultBuilding20increment = gameState.defaultBuilding20increment;
+				building20increment = gameState.building20increment;
+				building20cost = gameState.building20cost;
+
+				building21quantity = gameState.building21quantity;
+				defaultBuilding21increment = gameState.defaultBuilding21increment;
+				building21increment = gameState.building21increment;
+				building21cost = gameState.building21cost;
+
+				building22quantity = gameState.building22quantity;
+				defaultBuilding22increment = gameState.defaultBuilding22increment;
+				building22increment = gameState.building22increment;
+				building22cost = gameState.building22cost;
+
+				building23quantity = gameState.building23quantity;
+				defaultBuilding23increment = gameState.defaultBuilding23increment;
+				building23increment = gameState.building23increment;
+				building23cost = gameState.building23cost;
+
+				building24quantity = gameState.building24quantity;
+				defaultBuilding24increment = gameState.defaultBuilding24increment;
+				building24increment = gameState.building24increment;
+				building24cost = gameState.building24cost;
+
+				building25quantity = gameState.building25quantity;
+				defaultBuilding25increment = gameState.defaultBuilding25increment;
+				building25increment = gameState.building25increment;
+				building25cost = gameState.building25cost;
+
+				building26quantity = gameState.building26quantity;
+				defaultBuilding26increment = gameState.defaultBuilding26increment;
+				building26increment = gameState.building26increment;
+				building26cost = gameState.building26cost;
+
+		}
+
+		function copyGameStateToClipboard(gameStateString) {
+		    navigator.clipboard.writeText(gameStateString)
+		        .then(function () {
+		            alert("Game state copied to clipboard! Be sure to paste it somewhere safe.");
+		        })
+		        .catch(function (err) {
+		            console.error('Unable to copy game state to clipboard', err);
+		            alert("Unable to copy game state to clipboard. Please copy it manually.");
+		        });
+		}
+
 
             // Function to save variables to localStorage
         function saveGame() {
@@ -460,6 +771,10 @@
             alert("Game saved!");
         }
 
+        function importSavePrompt() {
+        	var importedSaveData = prompt("Paste your saved data here:");
+        	importSave(importedSaveData);
+        }
 
             // Function to load variables from localStorage
         function loadGame() {
@@ -1804,9 +2119,15 @@ Step ASIAN) u are a true Asian and will no longer have to face the terrible trut
             <span style="font-size: 2vh"><b>Permanently</b> increases your <b>max mana</b> by <b>5</b></span>
         </div>
         <div style="width: 30vw; height: 39vh; background-color: #FFFFFF">
-            <button style="height: 10vh; width: 14vw" onclick="saveGame()">Save</button>
-            <button style="height: 10vh; width: 14vw" onclick="loadGame()">Load</button>
-            <button style="height: 10vh; width: 29vw" onclick="updateEverything()">If the game isn't loading correctly, try clicking me.</button>
+            <button style="font-size: 2.5vh; height: 5vh; width: 14vw;" onclick="saveGame()">Save</button>
+            <button style="font-size: 2.5vh; height: 5vh; width: 14vw;" onclick="loadGame()">Load</button>
+            <div  style="height: 1vh; width: 28.25vw;"></div>
+            <button style="font-size: 2.5vh; height: 5vh; width: 14vw;" onClick="exportSave()" id="exportButton">Export Save</button>
+			<button style="font-size: 2.5vh; height: 5vh; width: 14vw;" onClick="importSavePrompt()" id="importButton">Import Save</button>
+			<div  style="height: 2vh; width: 28.25vw;"></div>
+			<button style="font-size: 2.5vh; height: 10vh; width: 28.25vw;" onclick="updateEverything()">If the game isn't loading correctly, try clicking me.</button>
+			<div  style="height: 2vh; width: 28.25vw;"></div>
+			<button style="background-color: #660000; color: #CCCCCC; font-size: 2.5vh; height: 10vh; width: 28.25vw;"><b>ERASE ALL PROGRESS AND RESET</b></button>
         </div>
     </div>
 </body>
