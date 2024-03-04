@@ -140,6 +140,7 @@
         var manaBoostyCost = 2.5e+7;
         var upgradeMultiCost = 100;
         var totalBuildings = 0;
+        var increaseMaxManaCost = 2.25e+6;
 
 
         var building1quantity = 0;
@@ -345,6 +346,7 @@
                 multiplier,
                 clickyBoostyCost,
                 manaBoostyCost,
+                increaseMaxManaCost,
                 building1quantity,
                 defaultBuilding1increment,
                 building1increment,
@@ -473,6 +475,7 @@
                 multiplier = saveData.multiplier || 1;
                 clickyBoostyCost = saveData.clickyBoostyCost|| 1e+6;
                 manaBoostyCost = saveData.manaBoostyCost || 2.5e+7;
+                increaseMaxManaCost = saveData.increaseMaxManaCost || 2.25e+6;
                 building1quantity = saveData.building1quantity || 0;
                 defaultBuilding1increment = saveData.defaultBuilding1increment || 1;
                 building1increment = saveData.building1increment || 1;
@@ -638,6 +641,17 @@
                 coins -= cost;
                 manaBoostyCost = Math.ceil(25000000 + manaBoostyCost * 3);
                 manaSpeed = manaSpeed + 0.01;
+                updateData();
+            }else{
+                flashNotEnoughCoins();
+            }
+        }
+
+        function increaseMaxMana(cost) {
+            if(coins >= cost) {
+                coins -= cost;
+                increaseMaxManaCost = Math.ceil(12500000 + increaseMaxManaCost * 17);
+                maxMana = maxMana + 5;
                 updateData();
             }else{
                 flashNotEnoughCoins();
@@ -817,9 +831,12 @@
 
         function updateData() {
             document.getElementById('clickyBoostyDisplay').innerHTML = "Buy (" + styleNumber(clickyBoostyCost) + " coins)";
+            document.getElementById('increaseMaxManaDisplay').innerHTML = "Buy (" + styleNumber(increaseMaxManaCost) + " coins)";
             document.getElementById('manaBoostyDisplay').innerHTML = "Buy (" + styleNumber(manaBoostyCost) + " coins)";
             document.getElementById('coinDisplay').innerHTML = "Coins: <b>" + styleNumber(coins) + "</b>";
             document.getElementById('incrementDisplay').innerHTML = "Per Click: <b>" + styleNumber(increment) + "</b>" + " (multiplier: <b>x" + multiplier.toFixed(2) + "</b>)";
+
+
             document.getElementById("manaDisplay").innerHTML = Math.round(mana) + "/" + maxMana + " (+" + manaSpeed.toFixed(2) + "/s)";
             var manaPercentage = (mana / maxMana) * 100;
 
@@ -1768,17 +1785,23 @@ Step ASIAN) u are a true Asian and will no longer have to face the terrible trut
             <div style="display: flex; align-items: center; justify-content: center; font-size: 9vh;" id="timer">0d 0h 0m 0s</div>
             <div style="display: flex; align-items: center; justify-content: center; font-size: 3vh;"></b> ago</div>
         </div>
-        <div style="width: 30vw; height: 7vh; background-color: #F0F0F0">
+        <div style="width: 30vw; height: 10vh; background-color: #F0F0F0">
             <span style="font-size: 3vh">Clicky Boosty</span> <button style="height: 3vh; font-size: 2vh;"  id="clickyBoostyDisplay" onClick="clickyBoosty(clickyBoostyCost)">
-                Buy (1 million)
+                Buy (1 million coins)
             </button><br>
             <span style="font-size: 2vh"><b>Permanently</b> multiplies your <b>CpC</b> by <b>35%</b></span>
         </div>
-        <div style="width: 30vw; height: 39vh; background-color: #F0F0F0">
+        <div style="width: 30vw; height: 10vh; background-color: #F0F0F0">
             <span style="font-size: 3vh">Mana Boosty</span> <button style="height: 3vh; font-size: 2vh;"  id="manaBoostyDisplay" onClick="manaBoosty(manaBoostyCost)">
-                Buy (25.000 million)
+                Buy (25.000 million coins)
             </button><br>
             <span style="font-size: 2vh"><b>Permanently</b> speeds up your <b>mana production</b> by <b>0.01/s</b></span>
+        </div>
+        <div style="width: 30vw; height: 10vh; background-color: #F0F0F0">
+            <span style="font-size: 3vh">Increase Max Mana</span> <button style="height: 3vh; font-size: 2vh;"  id="increaseMaxManaDisplay" onClick="increaseMaxMana(increaseMaxManaCost)">
+                Buy (2.250 million coins)
+            </button><br>
+            <span style="font-size: 2vh"><b>Permanently</b> increases your <b>max mana</b> by <b>5</b></span>
         </div>
         <div style="width: 30vw; height: 39vh; background-color: #FFFFFF">
             <button style="height: 10vh; width: 14vw" onclick="saveGame()">Save</button>
