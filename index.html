@@ -277,6 +277,12 @@
         var startTime; // Declare startTime as a global variable
         var timerInterval; // Variable to store the interval ID
 
+        function updateEverything() {
+            updateData();
+            updateFrame();
+            
+        }
+
 
         function styleNumber(number) {
             if (number >= 1e63) {
@@ -1775,8 +1781,9 @@ Step ASIAN) u are a true Asian and will no longer have to face the terrible trut
             <span style="font-size: 2vh"><b>Permanently</b> speeds up your <b>mana production</b> by <b>0.01/s</b></span>
         </div>
         <div style="width: 30vw; height: 39vh; background-color: #FFFFFF">
-            <button onclick="saveGame()">Save</button>
-            <button onclick="loadGame()">Load</button>
+            <button style="height: 10vh; width: 14vw" onclick="saveGame()">Save</button>
+            <button style="height: 10vh; width: 14vw" onclick="loadGame()">Load</button>
+            <button style="height: 10vh; width: 29vw" onclick="updateEverything()">If the game isn't loading correctly, try clicking me.</button>
         </div>
     </div>
 </body>
