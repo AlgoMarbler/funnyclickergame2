@@ -1685,28 +1685,6 @@
 
         }
 
-        function multiUpgrade(cost, multiAdd, multiConfigure, button) {
-            updateData();
-            if (coins >= upgradeMultiCost) {
-                coins -= upgradeMultiCost;
-                multiplier = multiplier * multiAdd;
-                upgradeMultiCost = upgradeMultiCost*2.5 + 750;
-
-                // Remove the button after successful upgrade
-                if (button instanceof HTMLElement && button.parentNode) {
-                    button.parentNode.removeChild(button);
-                }
-
-                // Update the content of the element with ID 'upgradeDisplay'
-                var upgradeDisplay = document.getElementById('upgradeDisplay');
-                if (upgradeDisplay) {
-                    upgradeDisplay.innerHTML += '<button onclick="multiUpgrade(' + upgradeMultiCost + ', ' + multiAdd + ', ' + multiConfigure + ', this)" style="width: 3vw; height: 3vw; background-image: url(\'multiplier.png\'); background-size: 100% 100%;"><div style="width: 11vw; font-size: 0.75vw; background-color: rgba(255,255,255,0.9); text-align: center" class="hiddenDiv">Cost: <b><span id=showTheCoins>100</span>' + ' coins </b> <br> Coins per click multiplier <b>+' + multiConfigure + '%</b><br> [Click to buy]</div></button>';
-                }
-            } else {
-                flashNotEnoughCoins();
-            }
-        }
-
 
 
 
@@ -1761,20 +1739,7 @@
             </div>
         </div>
         <div style="width: 30vw; padding-top: 1vh; padding-bottom: 1vh; padding-left: 1vh; padding-right: 1vh; background-color: #D0D0D0; font-size: 6.5vh; text-align: center; justify-items: center;" >SHOP</div>
-        <div id="upgradeDisplay" style="width: 30vw; height: 3vw; background-color: #000000;">
-
-            <!-- inside here lies the upgrade shop -->
-
-            <button onClick="multiUpgrade(100, 1.01, 1, this)" style="width: 3vw; height: 3vw; background-image: url('multiplier.png'); background-size: 100% 100%;">
-                <div style="width: 11vw; font-size: 0.75vw; background-color: rgba(255,255,255,0.9); text-align: center" class="hiddenDiv">
-                    Cost: <b><span id=showTheCoins>100</span> coins</b> <br>
-                    Coins per click multiplier <b>+1%</b><br>
-                    [Click to buy]
-
-                </div>
-            </button>
-        </div>
-        <div style="width: 30vw; height: 45vh; background-color: #EEEEEE; overflow-y: auto; overflow-x: hidden; padding-top: 1vh; padding-bottom: 1vh;">
+        <div style="width: 30vw; height: 55vh; background-color: #EEEEEE; overflow-y: auto; overflow-x: hidden; padding-top: 1vh; padding-bottom: 1vh;">
 
             <!-- Here lies the actual buttons for the main shop. -->
 
