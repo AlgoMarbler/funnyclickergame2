@@ -331,16 +331,6 @@
             }
         }
 
-        function styleNumberMulti(number) {
-            if (number >= 1e4) {
-                return number.toFixed(0);
-            else if (number >= 1e3) {
-                return number.toFixed(0);
-            } else {
-                return number.toFixed(2);
-            }
-        }
-
 		function exportSave() {
 			var gameState = {
 			startTime: startTime,
@@ -1164,7 +1154,7 @@
             document.getElementById('increaseMaxManaDisplay').innerHTML = "Buy (" + styleNumber(increaseMaxManaCost) + " coins)";
             document.getElementById('manaBoostyDisplay').innerHTML = "Buy (" + styleNumber(manaBoostyCost) + " coins)";
             document.getElementById('coinDisplay').innerHTML = "Coins: <b>" + styleNumber(coins) + "</b>";
-            document.getElementById('incrementDisplay').innerHTML = "Per Click: <b>" + styleNumber(increment) + "</b>" + " (multiplier: <b>x" + styleNumberMulti(multiplier) + "</b>)";
+            document.getElementById('incrementDisplay').innerHTML = "Per Click: <b>" + styleNumber(increment) + "</b>" + " (multiplier: <b>x" + multiplier.toFixed(2) + "</b>)";
 
 
             document.getElementById("manaDisplay").innerHTML = Math.round(mana) + "/" + maxMana + " (+" + manaSpeed.toFixed(2) + "/s)";
