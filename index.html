@@ -333,6 +333,7 @@
 
 		function exportSave() {
 			var gameState = {
+			startTime: startTime,
 			    mana: mana,
 			    maxMana: maxMana,
 			    manaSpeed: manaSpeed,
@@ -488,7 +489,7 @@
 		// Function to import the game state
 		function importSave(savedData) {
 		    var gameState = JSON.parse(savedData);
-
+				startTime = gameState.startTime;
 				mana = gameState.mana;
 				maxMana = gameState.maxMana;
 				manaSpeed = gameState.manaSpeed;
@@ -650,6 +651,7 @@
 
             priorTime = priorTime + elapsedTime;
             var saveData = {
+		startTime,
                 mana,
                 maxMana,
                 manaSpeed,
@@ -783,6 +785,7 @@
             var saveData = localStorage.getItem('gameSave');
             if (saveData) {
                 saveData = JSON.parse(saveData);
+		startTime = saveData.startTime;
                 mana = saveData.mana || 0;
                 maxMana = saveData.maxMana || 100;
                 manaSpeed = saveData.manaSpeed || 0.25;
