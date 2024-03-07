@@ -322,6 +322,10 @@
                 return (number / 1e109).toFixed(3) + ' billion googol';
             } else if (number >= 1e106) {
                 return (number / 1e106).toFixed(3) + ' million googol';
+            } else if (number >= 1e104) {
+                return (number / 1e104).toFixed(0) + ' googol';
+            } else if (number >= 1e103) {
+                return (number / 1e103).toFixed(1) + ' googol';
             } else if (number >= 1e100) {
                 return (number / 1e100).toFixed(3) + ' googol';
             } else if (number >= 1e99) {
