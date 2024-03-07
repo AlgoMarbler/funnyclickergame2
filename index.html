@@ -286,7 +286,7 @@
 
 
         function styleNumber(number) {
-            if (number >= (2^511)) {
+            if (number >= (1.4e+155)) {
                 return Infinity;
             } else if (number >= 1e154) {
                 return (number / 1e154).toFixed(3) + ' septendecillion googol';
